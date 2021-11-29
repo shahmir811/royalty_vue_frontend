@@ -8,6 +8,15 @@ import Landing from '../pages/Landing/Landing.vue';
 import Login from '../pages/Login/Login.vue';
 import NotFound from '../pages/Error/NotFound.vue';
 import Home from '../pages/Auth/Home/Home.vue';
+import Users from '../pages/Auth/Users/Users.vue';
+import Tax from '../pages/Auth/Tax/Tax.vue';
+import Inventory from '../pages/Auth/Inventory/Inventory.vue';
+import Sales from '../pages/Auth/Sales/Sales.vue';
+import Purchase from '../pages/Auth/Purchase/Purchase.vue';
+import SalesQuotation from '../pages/Auth/SalesQuotation/SalesQuotation.vue';
+import Customers from '../pages/Auth/Customers/Customers.vue';
+import CustomerCredit from '../pages/Auth/CustomerCredit/CustomerCredit.vue';
+import Locations from '../pages/Auth/Locations/Locations.vue';
 
 const router = new Router({
 	mode: 'history',
@@ -28,6 +37,61 @@ const router = new Router({
 			path: '/home',
 			component: Home,
 			name: 'home',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/users',
+			component: Users,
+			name: 'users',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/customers',
+			component: Customers,
+			name: 'customers',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/customer-credit',
+			component: CustomerCredit,
+			name: 'customer-credit',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/tax',
+			component: Tax,
+			name: 'tax',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/inventory',
+			component: Inventory,
+			name: 'inventory',
+			meta: { guest: false, needsAuth: true },
+		},
+
+		{
+			path: '/sales',
+			component: Sales,
+			name: 'sales',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/sales-quotation',
+			component: SalesQuotation,
+			name: 'sales-quotation',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/locations',
+			component: Locations,
+			name: 'locations',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/purchase',
+			component: Purchase,
+			name: 'purchase',
 			meta: { guest: false, needsAuth: true },
 		},
 		{

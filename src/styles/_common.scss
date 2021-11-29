@@ -5,7 +5,53 @@
   margin: 10px 0px;
 }
 
+.regular-12px-20px {
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.regular-16px-24px {
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+
+.semibold-12px-20px {
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.semibold-16px-24px {
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+
+.mt-50 {
+  margin-top: 50px;
+}
 
 .mt-20 {
   margin-top: 20px;
+}
+
+.pt-20 {
+  padding-top: 20px !important;
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
 }
