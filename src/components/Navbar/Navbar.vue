@@ -37,7 +37,9 @@
 							<em>User</em>
 						</template>
 						<b-dropdown-item href="#">Profile</b-dropdown-item>
-						<b-dropdown-item href="#">Sign Out</b-dropdown-item>
+						<b-dropdown-item href="#" @click.prevent="exitApplication"
+							>Sign Out</b-dropdown-item
+						>
 					</b-nav-item-dropdown>
 				</b-navbar-nav>
 			</b-collapse>
@@ -46,8 +48,31 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
 	name: 'Navbar',
+	computed: {
+		...mapGetters({
+			isAuthenticated: 'auth/isAuthenticated',
+			user: 'auth/user',
+		}),
+	},
+	methods: {
+		...mapActions({
+			logout: 'auth/logout',
+			clearAuthState: 'auth/clearAuthState',
+			clearUserState: 'user/clearUserState',
+			clearOrdersState: 'orders/clearOrdersState',
+		}),
+		exitApplication() {
+			this.logout().then(() => {
+				this.clearAuthState();
+				this.clearUserState();
+				this.clearOrdersState();
+			});
+		},
+	},
 };
 </script>
 

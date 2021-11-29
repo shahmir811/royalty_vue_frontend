@@ -1,12 +1,13 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-// import beforeEach from './beforeEach';
+import beforeEach from './beforeEach';
 
 Vue.use(Router);
 
 import Landing from '../pages/Landing/Landing.vue';
 import Login from '../pages/Login/Login.vue';
 import NotFound from '../pages/Error/NotFound.vue';
+import Home from '../pages/Auth/Home/Home.vue';
 
 const router = new Router({
 	mode: 'history',
@@ -24,6 +25,12 @@ const router = new Router({
 			meta: { guest: true, needsAuth: false },
 		},
 		{
+			path: '/home',
+			component: Home,
+			name: 'home',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
 			path: '*',
 			component: NotFound,
 		},
@@ -31,6 +38,6 @@ const router = new Router({
 });
 
 // Registering beforeEach
-// router.beforeEach(beforeEach);
+router.beforeEach(beforeEach);
 
 export default router;

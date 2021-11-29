@@ -1,12 +1,91 @@
 <template>
-	<div>
-		<h1>Login page</h1>
+	<div class="login-page-wrapping-div">
+		<div class="login-page-box">
+			<h1 class="login-page-login-title">Login</h1>
+			<b-form @submit.prevent="onSubmit">
+				<b-form-group
+					id="input-group-1"
+					label="Email address:"
+					label-for="input-1"
+					class="login-page-email-group-div"
+				>
+					<b-form-input
+						id="input-1"
+						v-model="form.email"
+						type="text"
+						placeholder="Enter email"
+						:class="{ 'is-invalid': errors.email }"
+					></b-form-input>
+					<span class="invalid-feedback" v-if="errors.email">
+						<strong>{{ errors.email[0] }}</strong>
+					</span>
+				</b-form-group>
+
+				<b-form-group
+					id="input-group-2"
+					label="Password:"
+					label-for="input-2"
+					class="login-page-password-group-div"
+				>
+					<b-form-input
+						id="input-2"
+						v-model="form.password"
+						type="password"
+						placeholder="Enter Password"
+					></b-form-input>
+				</b-form-group>
+
+				<router-link to="/forgot-password" class="goto-forgot-password-page">
+					Forgot password
+				</router-link>
+
+				<b-button
+					type="submit"
+					class="login-page-submit-button"
+					:disabled="loading"
+				>
+					<template v-if="loading"
+						><b-spinner small label="Small Spinner"></b-spinner
+					></template>
+					<template v-else>Submit</template>
+				</b-button>
+			</b-form>
+		</div>
 	</div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
 	name: 'Login',
+	computed: {
+		...mapGetters({
+			loading: 'auth/loading',
+			errors: 'auth/errors',
+		}),
+	},
+	data() {
+		return {
+			form: {
+				email: '',
+				password: '',
+			},
+		};
+	}, // data ends here
+	methods: {
+		...mapActions({
+			loginUser: 'auth/loginUser',
+			removeAllErrors: 'auth/removeAllErrors',
+		}),
+		onSubmit(e) {
+			e.preventDefault();
+			// console.log(this.form);
+			this.loginUser(this.form);
+			// console.log("EMAIL: ", this.form.email);
+			// console.log("PASSWORD: ", this.form.password);
+		}, // methods end here
+	},
 };
 </script>
 
