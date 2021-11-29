@@ -1,0 +1,22 @@
+@import 'fonts.scss';
+
+@import 'variables.scss';
+
+@import 'common.scss';
+
+@import 'node_modules/bootstrap/scss/bootstrap.scss';
+@import 'node_modules/bootstrap-vue/src/index.scss';
+
+
+body {
+  background-color: $BODY_BG_COLOR;
+  font-family: 'Poppins',
+    sans-serif;
+}
+
+h1.page-title {
+  font-family: 'IBM Plex Serif',
+    serif;
+  text-align: center;
+  margin: 10px 0px;
+}
