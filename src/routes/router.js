@@ -9,6 +9,8 @@ import Login from '../pages/Login/Login.vue';
 import NotFound from '../pages/Error/NotFound.vue';
 import Home from '../pages/Auth/Home/Home.vue';
 import Users from '../pages/Auth/Users/Users.vue';
+import AddUser from '../pages/Auth/Users/AddUser.vue';
+import UpdateUser from '../pages/Auth/Users/UpdateUser.vue';
 import Tax from '../pages/Auth/Tax/Tax.vue';
 import Inventory from '../pages/Auth/Inventory/Inventory.vue';
 import Sales from '../pages/Auth/Sales/Sales.vue';
@@ -43,6 +45,18 @@ const router = new Router({
 			path: '/users',
 			component: Users,
 			name: 'users',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/add-user',
+			component: AddUser,
+			name: 'add-user',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/update-user/:id',
+			component: UpdateUser,
+			name: 'update-user',
 			meta: { guest: false, needsAuth: true },
 		},
 		{
