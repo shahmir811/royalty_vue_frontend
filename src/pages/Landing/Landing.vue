@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h1>Landing page</h1>
+		<h1 class="page-title">Landing page</h1>
 	</div>
 </template>
 
@@ -10,4 +10,6 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+@import '../../styles/styles.scss';
+</style>

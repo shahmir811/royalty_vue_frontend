@@ -51,7 +51,9 @@
 					<template v-if="loading"
 						><b-spinner small label="Small Spinner"></b-spinner
 					></template>
-					<template v-else>Submit</template>
+					<template v-else
+						><i class="fa fa-floppy-o" aria-hidden="true"></i> Submit</template
+					>
 				</b-button>
 			</b-form>
 		</div>
@@ -85,8 +87,6 @@ export default {
 		onSubmit(e) {
 			e.preventDefault();
 			this.loginUser(this.form);
-			// console.log("EMAIL: ", this.form.email);
-			// console.log("PASSWORD: ", this.form.password);
 		}, // methods end here
 	},
 };
