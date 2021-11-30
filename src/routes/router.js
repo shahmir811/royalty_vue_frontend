@@ -19,6 +19,8 @@ import SalesQuotation from '../pages/Auth/SalesQuotation/SalesQuotation.vue';
 import Customers from '../pages/Auth/Customers/Customers.vue';
 import CustomerCredit from '../pages/Auth/CustomerCredit/CustomerCredit.vue';
 import Locations from '../pages/Auth/Locations/Locations.vue';
+import AddLocation from '../pages/Auth/Locations/AddLocation.vue';
+import UpdateLocation from '../pages/Auth/Locations/UpdateLocation.vue';
 
 const router = new Router({
 	mode: 'history',
@@ -100,6 +102,18 @@ const router = new Router({
 			path: '/locations',
 			component: Locations,
 			name: 'locations',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/add-location',
+			component: AddLocation,
+			name: 'add-location',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/update-location/:id',
+			component: UpdateLocation,
+			name: 'update-location',
 			meta: { guest: false, needsAuth: true },
 		},
 		{

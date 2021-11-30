@@ -16,6 +16,8 @@ export const setIsAuthenticated = (state, trueOrFalse) =>
 
 export const setUserData = (state, data) => (state.user = data);
 
+export const setLoading = (state, trueOrFalse) => (state.loading = trueOrFalse);
+
 export const setUserRoleInLocalStorage = (state, role) => {
 	if (isEmpty(role)) {
 		localForage.removeItem('userRole');

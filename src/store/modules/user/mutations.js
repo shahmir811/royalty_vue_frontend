@@ -19,6 +19,8 @@ export const getUserToUpdate = (state, comingId) => {
 	state.updateUser = state.users.find(user => user.id === id);
 };
 
+export const setLoading = (state, trueOrFalse) => (state.loading = trueOrFalse);
+
 export const changeUserStatus = (state, id) => {
 	const user = state.users.find(user => user.id === id);
 	if (user.status === 'Active') {

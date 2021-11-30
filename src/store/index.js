@@ -10,6 +10,9 @@ import * as actions from './actions';
 
 import auth from './modules/auth';
 import user from './modules/user';
+import location from './modules/location';
+import customer from './modules/customer';
+import inventory from './modules/inventory';
 
 export default new Vuex.Store({
 	state,
@@ -19,5 +22,8 @@ export default new Vuex.Store({
 	modules: {
 		auth,
 		user,
+		location,
+		customer,
+		invt: inventory,
 	},
 });

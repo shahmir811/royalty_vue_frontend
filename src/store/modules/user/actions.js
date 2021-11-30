@@ -93,6 +93,7 @@ export const UpdateUserDetails = async ({ commit, dispatch }, data) => {
 
 /////////////////////// Select specific user ///////////////////////
 export const selectUserToUpdate = ({ commit }, id) => {
+	commit('clearErrors');
 	commit('getUserToUpdate', id);
 };
 

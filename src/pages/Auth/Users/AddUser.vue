@@ -115,14 +115,13 @@
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
-	// name: 'AddUserPage',
+	name: 'AddUserPage',
 	computed: {
 		...mapGetters({
 			loading: 'user/loading',
 			errors: 'user/errors',
 		}),
 	},
-
 	data() {
 		return {
 			form: {

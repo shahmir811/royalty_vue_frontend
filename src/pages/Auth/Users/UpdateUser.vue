@@ -79,12 +79,15 @@
 						<template v-if="loading"
 							><b-spinner small label="Small Spinner"></b-spinner
 						></template>
-						<template v-else>Update</template>
+						<template v-else
+							><i class="fa fa-floppy-o" aria-hidden="true"></i>
+							Update</template
+						>
 					</b-button>
 					<router-link
 						to="/users"
 						class="btn btn-danger admin-add-user-cancel-button"
-						>Cancel</router-link
+						><i class="fa fa-times" aria-hidden="true"></i> Cancel</router-link
 					>
 				</b-form>
 			</b-col>
