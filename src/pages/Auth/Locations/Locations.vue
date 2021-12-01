@@ -100,7 +100,7 @@ export default {
 					if (result.value) {
 						this.changeLocationStatus(locationId).then(() => {
 							this.$swal.fire(
-								'Activated!',
+								'Done!',
 								'Location status has been changed.',
 								'success'
 							);

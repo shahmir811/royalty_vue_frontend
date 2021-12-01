@@ -4,6 +4,7 @@ const CustomerState = {
 	pageLoad: false,
 	errors: [],
 	updateCustomer: null,
+	countries: [],
 };
 
 export default CustomerState;

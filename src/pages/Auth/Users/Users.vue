@@ -102,7 +102,7 @@ export default {
 					if (result.value) {
 						this.changeUserStatus(userId).then(() => {
 							this.$swal.fire(
-								'Activated!',
+								'Done!',
 								'User status has been changed.',
 								'success'
 							);

@@ -1,6 +1,7 @@
 import axios from '../../BaseUrl';
 import router from '../../../routes/router';
-import localForage from 'localforage';
+
+import { getURL } from '../../../helpers/index';
 
 /////////////////////// Fetch all locations ///////////////////////
 
@@ -123,12 +124,5 @@ export const changeLocationStatus = async ({ commit }, locationId) => {
 				console.log(error);
 				reject();
 			});
-	});
-};
-
-/////////////////////// get URL based on role ///////////////////////
-const getURL = () => {
-	return localForage.getItem('userRole').then(role => {
-		return role === 'admin' ? 'wadmin/' : 'wemployee/';
 	});
 };

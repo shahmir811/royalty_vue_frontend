@@ -17,6 +17,8 @@ import Sales from '../pages/Auth/Sales/Sales.vue';
 import Purchase from '../pages/Auth/Purchase/Purchase.vue';
 import SalesQuotation from '../pages/Auth/SalesQuotation/SalesQuotation.vue';
 import Customers from '../pages/Auth/Customers/Customers.vue';
+import AddCustomer from '../pages/Auth/Customers/AddCustomer.vue';
+import UpdateCustomer from '../pages/Auth/Customers/UpdateCustomer.vue';
 import CustomerCredit from '../pages/Auth/CustomerCredit/CustomerCredit.vue';
 import Locations from '../pages/Auth/Locations/Locations.vue';
 import AddLocation from '../pages/Auth/Locations/AddLocation.vue';
@@ -65,6 +67,18 @@ const router = new Router({
 			path: '/customers',
 			component: Customers,
 			name: 'customers',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/add-customer',
+			component: AddCustomer,
+			name: 'add-customer',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/update-customer/:id',
+			component: UpdateCustomer,
+			name: 'update-customer',
 			meta: { guest: false, needsAuth: true },
 		},
 		{
