@@ -11,6 +11,7 @@ Vue.config.productionTip = false;
 
 import './styles/styles.scss';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import 'devextreme/dist/css/dx.light.css';
 
 localForage.config({
 	driver: localForage.LOCALSTORAGE,

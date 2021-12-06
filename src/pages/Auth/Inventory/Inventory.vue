@@ -13,39 +13,48 @@
 						><i class="fa fa-plus" aria-hidden="true"></i> Add Item</b-button
 					>
 				</router-link>
+				<router-link
+					v-if="selectedInventory"
+					:to="{
+						name: 'update-inventory',
+						params: { id: selectedInventory.id },
+					}"
+				>
+					<b-button class="admin-users-component-add-new-inventory-button ml-2"
+						><i class="fa fa-pencil" aria-hidden="true"></i> Update
+						Item</b-button
+					>
+				</router-link>
 			</b-row>
 
 			<b-row class="pr-20">
-				<table class="table table-hover">
-					<thead class="table-header-class">
-						<tr>
-							<th>#</th>
-							<th>Item Name</th>
-							<th>Price (AED)</th>
-							<th>Quantity</th>
-							<th>Actions</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr v-for="(invty, index) in inventories" :key="invty.id">
-							<td scope="row">{{ ++index }}</td>
-							<td>{{ invty.item_name }}</td>
-							<td>{{ invty.sale_price }}</td>
-							<td>{{ invty.quantity }}</td>
-							<td>
-								<router-link
-									class="update-user-link mr-2"
-									:to="{
-										name: 'update-inventory',
-										params: { id: invty.id },
-									}"
-								>
-									<i class="fa fa-pencil" aria-hidden="true"></i>
-								</router-link>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+				<DxDataGrid
+					:data-source="inventories"
+					key-expr="id"
+					:allow-column-reordering="true"
+					@selection-changed="selectInventory"
+					:showBorders="true"
+					:show-row-lines="true"
+					@row-prepared="onRowPrepared"
+				>
+					<DxColumn data-field="item_name" :fixed="true" sort-order="asc" />
+					<DxColumn data-field="quantity" alignment="center" />
+					<DxColumn data-field="package" caption="Package" />
+					<DxColumn data-field="purchase_price" alignment="center" />
+					<DxColumn data-field="sale_price" alignment="center" />
+					<DxColumn data-field="location" />
+					<DxColumn data-field="status" alignment="center" />
+
+					<DxSelection mode="single" />
+					<DxFilterRow :visible="true" />
+					<DxSearchPanel :visible="true" />
+					<DxPaging :enabled="true" :page-size="25" />
+					<DxPager
+						:show-navigation-buttons="true"
+						:show-info="true"
+						info-text="Page #{0}. Total: {1} ({2} items)"
+					/>
+				</DxDataGrid>
 			</b-row>
 		</template>
 	</div>
@@ -53,6 +62,15 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import {
+	DxDataGrid,
+	DxColumn,
+	DxFilterRow,
+	DxSearchPanel,
+	DxSelection,
+	DxPaging,
+	DxPager,
+} from 'devextreme-vue/data-grid';
 
 import Spinner from '../../../components/Spinner/Spinner.vue';
 
@@ -63,6 +81,13 @@ export default {
 	},
 	components: {
 		Spinner,
+		DxDataGrid,
+		DxColumn,
+		DxFilterRow,
+		DxSearchPanel,
+		DxSelection,
+		DxPaging,
+		DxPager,
 	},
 	computed: {
 		...mapGetters({
@@ -72,10 +97,27 @@ export default {
 			errors: 'invt/errors',
 		}),
 	},
+	data() {
+		return {
+			selectedInventory: undefined,
+		};
+	},
 	methods: {
 		...mapActions({
 			fetchInventory: 'invt/fetchInventory',
 		}),
+		selectInventory(e) {
+			e.component.byKey(e.currentSelectedRowKeys[0]).done(inventory => {
+				if (inventory) {
+					this.selectedInventory = inventory;
+				}
+			});
+		},
+		onRowPrepared(e) {
+			if (e.rowType === 'data') {
+				if (e.data.quantity < 15) e.rowElement.classList.add('lowInventory');
+			}
+		},
 	},
 };
 </script>

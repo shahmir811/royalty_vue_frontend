@@ -14,50 +14,56 @@
 						Customer</b-button
 					>
 				</router-link>
+				<router-link
+					v-if="selectedCustomer"
+					:to="{
+						name: 'update-customer',
+						params: { id: selectedCustomer.id },
+					}"
+				>
+					<b-button
+						class="admin-users-component-add-new-inventory-button w-195 ml-2"
+						><i class="fa fa-pencil" aria-hidden="true"></i> Update
+						Customer</b-button
+					>
+				</router-link>
+				<b-button
+					v-if="role === 'admin' && selectedCustomer"
+					href="#"
+					class="admin-users-component-change-status-button ml-2"
+					@click.prevent="onDeleteHandler(selectedCustomer.id)"
+				>
+					<i class="fa fa-handshake-o" aria-hidden="true"></i> Change Status
+				</b-button>
 			</b-row>
 
 			<b-row class="pr-20">
-				<table class="table table-hover">
-					<thead class="table-header-class">
-						<tr>
-							<th>#</th>
-							<th>Name</th>
-							<th>Country</th>
-							<th>Dubai Contact</th>
-							<th>Country Contact</th>
-							<th>Status</th>
-							<th>Actions</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr v-for="(customer, index) in customers" :key="customer.id">
-							<td scope="row">{{ ++index }}</td>
-							<td>{{ customer.name }}</td>
-							<td>{{ customer.country }}</td>
-							<td>{{ customer.mobile_no_dubai }}</td>
-							<td>{{ customer.mobile_no_country }}</td>
-							<td :class="customer.status">{{ customer.status }}</td>
-							<td>
-								<router-link
-									class="update-user-link mr-2"
-									:to="{
-										name: 'update-customer',
-										params: { id: customer.id },
-									}"
-								>
-									<i class="fa fa-pencil" aria-hidden="true"></i>
-								</router-link>
-								<a
-									v-if="role === 'admin'"
-									href="#"
-									class="update-user-delete-link"
-									@click.prevent="onDeleteHandler(customer.id)"
-									><i class="fa fa-handshake-o" aria-hidden="true"></i
-								></a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+				<DxDataGrid
+					:data-source="customers"
+					key-expr="id"
+					:allow-column-reordering="true"
+					@selection-changed="selectCustomer"
+					:showBorders="true"
+					:show-row-lines="true"
+					@cell-prepared="onCellPrepared"
+				>
+					<DxColumn data-field="name" :fixed="true" sort-order="asc" />
+					<DxColumn data-field="country" alignment="center" />
+					<DxColumn data-field="mobile_no_dubai" caption="Dubai Contact" />
+					<DxColumn data-field="mobile_no_country" caption="Country Contact" />
+					<DxColumn data-field="credit_amount" alignment="center" />
+					<DxColumn data-field="status" alignment="center" />
+
+					<DxSelection mode="single" />
+					<DxFilterRow :visible="true" />
+					<DxSearchPanel :visible="true" />
+					<DxPaging :enabled="true" :page-size="25" />
+					<DxPager
+						:show-navigation-buttons="true"
+						:show-info="true"
+						info-text="Page #{0}. Total: {1} ({2} items)"
+					/>
+				</DxDataGrid>
 			</b-row>
 		</template>
 	</div>
@@ -65,6 +71,15 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import {
+	DxDataGrid,
+	DxColumn,
+	DxFilterRow,
+	DxSearchPanel,
+	DxSelection,
+	DxPaging,
+	DxPager,
+} from 'devextreme-vue/data-grid';
 
 import Spinner from '../../../components/Spinner/Spinner.vue';
 
@@ -75,6 +90,13 @@ export default {
 	},
 	components: {
 		Spinner,
+		DxDataGrid,
+		DxColumn,
+		DxFilterRow,
+		DxSearchPanel,
+		DxSelection,
+		DxPaging,
+		DxPager,
 	},
 	computed: {
 		...mapGetters({
@@ -83,6 +105,11 @@ export default {
 			pageLoad: 'customer/pageLoad',
 			errors: 'customer/errors',
 		}),
+	},
+	data() {
+		return {
+			selectedCustomer: undefined,
+		};
 	},
 	methods: {
 		...mapActions({
@@ -112,6 +139,20 @@ export default {
 					}
 				});
 		},
+		selectCustomer(e) {
+			e.component.byKey(e.currentSelectedRowKeys[0]).done(customer => {
+				if (customer) {
+					this.selectedCustomer = customer;
+				}
+			});
+		},
+		onCellPrepared(e) {
+			if (e.rowType == 'data' && e.column.dataField == 'status') {
+				if (e.data.status === 'Deactive') {
+					e.cellElement.className += ' deactive';
+				}
+			}
+		},
 	},
 };
 </script>
@@ -122,6 +163,29 @@ export default {
 .admin-users-component-add-new-customer-button {
 	width: 160px;
 	height: 45px;
+	background: $BROWN-10 !important;
+	margin-bottom: 15px;
+
+	a {
+		@extend .regular-16px-24px;
+		color: $GREY-1 !important;
+
+		&:hover {
+			outline: none;
+			border: none;
+		}
+
+		&:hover {
+			@extend .regular-16px-24px;
+			background: $BROWN-11 !important;
+		}
+	}
+}
+
+.admin-users-component-change-status-button {
+	width: 170px;
+	height: 45px;
+	padding-top: 9px !important;
 	background: $BROWN-10 !important;
 	margin-bottom: 15px;
 

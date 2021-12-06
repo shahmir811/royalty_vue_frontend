@@ -14,46 +14,53 @@
 						Location</b-button
 					>
 				</router-link>
+				<router-link
+					v-if="selectedLocation"
+					:to="{
+						name: 'update-location',
+						params: { id: selectedLocation.id },
+					}"
+				>
+					<b-button
+						class="admin-users-component-add-new-inventory-button w-190 ml-2"
+						><i class="fa fa-pencil" aria-hidden="true"></i>
+						Update Location
+					</b-button>
+				</router-link>
+				<b-button
+					v-if="role === 'admin' && selectedLocation"
+					href="#"
+					class="admin-users-component-change-status-button ml-2"
+					@click.prevent="onDeleteHandler(selectedLocation.id)"
+				>
+					<i class="fa fa-handshake-o" aria-hidden="true"></i> Change Status
+				</b-button>
 			</b-row>
 
 			<b-row class="pr-20">
-				<table class="table table-hover">
-					<thead class="table-header-class">
-						<tr>
-							<th>#</th>
-							<th>Name</th>
-							<th>Contact No</th>
-							<th>Status</th>
-							<th>Actions</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr v-for="(location, index) in locations" :key="location.id">
-							<td scope="row">{{ ++index }}</td>
-							<td>{{ location.name }}</td>
-							<td>{{ location.contact_no }}</td>
-							<td :class="location.status">{{ location.status }}</td>
-							<td>
-								<router-link
-									class="update-user-link mr-2"
-									:to="{
-										name: 'update-location',
-										params: { id: location.id },
-									}"
-								>
-									<i class="fa fa-pencil" aria-hidden="true"></i>
-								</router-link>
-								<a
-									v-if="role === 'admin'"
-									href="#"
-									class="update-user-delete-link"
-									@click.prevent="onDeleteHandler(location.id)"
-									><i class="fa fa-handshake-o" aria-hidden="true"></i
-								></a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+				<DxDataGrid
+					:data-source="locations"
+					key-expr="id"
+					:allow-column-reordering="true"
+					@selection-changed="selectLocation"
+					:showBorders="true"
+					:show-row-lines="true"
+					@cell-prepared="onCellPrepared"
+				>
+					<DxColumn data-field="name" :fixed="true" sort-order="asc" />
+					<DxColumn data-field="contact_no" caption="Contact" />
+					<DxColumn data-field="status" alignment="center" />
+
+					<DxSelection mode="single" />
+					<DxFilterRow :visible="true" />
+					<DxSearchPanel :visible="true" />
+					<DxPaging :enabled="true" :page-size="25" />
+					<DxPager
+						:show-navigation-buttons="true"
+						:show-info="true"
+						info-text="Page #{0}. Total: {1} ({2} items)"
+					/>
+				</DxDataGrid>
 			</b-row>
 		</template>
 	</div>
@@ -61,6 +68,15 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import {
+	DxDataGrid,
+	DxColumn,
+	DxFilterRow,
+	DxSearchPanel,
+	DxSelection,
+	DxPaging,
+	DxPager,
+} from 'devextreme-vue/data-grid';
 
 import Spinner from '../../../components/Spinner/Spinner.vue';
 
@@ -71,6 +87,13 @@ export default {
 	},
 	components: {
 		Spinner,
+		DxDataGrid,
+		DxColumn,
+		DxFilterRow,
+		DxSearchPanel,
+		DxSelection,
+		DxPaging,
+		DxPager,
 	},
 	computed: {
 		...mapGetters({
@@ -79,6 +102,11 @@ export default {
 			pageLoad: 'location/pageLoad',
 			errors: 'location/errors',
 		}),
+	},
+	data() {
+		return {
+			selectedLocation: undefined,
+		};
 	},
 	methods: {
 		...mapActions({
@@ -107,6 +135,20 @@ export default {
 						});
 					}
 				});
+		},
+		selectLocation(e) {
+			e.component.byKey(e.currentSelectedRowKeys[0]).done(location => {
+				if (location) {
+					this.selectedLocation = location;
+				}
+			});
+		},
+		onCellPrepared(e) {
+			if (e.rowType == 'data' && e.column.dataField == 'status') {
+				if (e.data.status === 'Deactive') {
+					e.cellElement.className += ' deactive';
+				}
+			}
 		},
 	},
 };
