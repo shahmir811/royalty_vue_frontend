@@ -13,6 +13,8 @@ import AddUser from '../pages/Auth/Users/AddUser.vue';
 import UpdateUser from '../pages/Auth/Users/UpdateUser.vue';
 import Tax from '../pages/Auth/Tax/Tax.vue';
 import Inventory from '../pages/Auth/Inventory/Inventory.vue';
+import AddInventory from '../pages/Auth/Inventory/AddInventory.vue';
+import UpdateInventory from '../pages/Auth/Inventory/UpdateInventory.vue';
 import Sales from '../pages/Auth/Sales/Sales.vue';
 import Purchase from '../pages/Auth/Purchase/Purchase.vue';
 import SalesQuotation from '../pages/Auth/SalesQuotation/SalesQuotation.vue';
@@ -97,6 +99,18 @@ const router = new Router({
 			path: '/inventory',
 			component: Inventory,
 			name: 'inventory',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/add-inventory',
+			component: AddInventory,
+			name: 'add-inventory',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/update-inventory/:id',
+			component: UpdateInventory,
+			name: 'update-inventory',
 			meta: { guest: false, needsAuth: true },
 		},
 

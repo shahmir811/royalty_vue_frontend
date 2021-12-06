@@ -1,79 +1,83 @@
 .page-h1-title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px 0px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 10px 0px;
 }
 
 .regular-12px-20px {
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 20px;
+	font-weight: normal;
+	font-size: 12px;
+	line-height: 20px;
 }
 
 .regular-16px-24px {
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 24px;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 24px;
 }
 
-
 .semibold-12px-20px {
-  font-weight: bold;
-  font-size: 12px;
-  line-height: 20px;
+	font-weight: bold;
+	font-size: 12px;
+	line-height: 20px;
 }
 
 .semibold-16px-24px {
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 24px;
+	font-weight: bold;
+	font-size: 16px;
+	line-height: 24px;
 }
 
+.text-left {
+	text-align: left;
+}
+
+.red-text {
+	color: red;
+}
 
 .mt-50 {
-  margin-top: 50px;
+	margin-top: 50px;
 }
 
 .mt-20 {
-  margin-top: 20px;
+	margin-top: 20px;
 }
 
 .pr-20 {
-  padding-right: 20px;
+	padding-right: 20px;
 }
 
 .pt-20 {
-  padding-top: 20px !important;
+	padding-top: 20px !important;
 }
 
 .disabled {
-  opacity: 0.5;
-  pointer-events: none;
+	opacity: 0.5;
+	pointer-events: none;
 }
 
 .mb-10 {
-  margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 
 .mb-20 {
-  margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 .mr-1 {
-  margin-right: 1px;
+	margin-right: 1px;
 }
-
 
 .mr-2 {
-  margin-right: 2px;
+	margin-right: 2px;
 }
 
-
 .mr-5 {
-  margin-right: 5px;
+	margin-right: 5px;
 }
 
 .mr-10 {
-  margin-right: 10px;
+	margin-right: 10px;
 }

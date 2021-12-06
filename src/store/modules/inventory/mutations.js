@@ -8,6 +8,13 @@ export const endLoading = state => (state.loading = false);
 
 export const clearErrors = state => (state.errors = []);
 
-export const setError = (state, payload) => (state.errors = payload);
+export const setError = (state, errors) => (state.errors = errors);
 
 export const setLoading = (state, trueOrFalse) => (state.loading = trueOrFalse);
+
+export const setInventoryList = (state, items) => (state.inventories = items);
+
+export const getInventoryToUpdate = (state, comingId) => {
+	const id = parseInt(comingId);
+	state.updateInventory = state.inventories.find(invt => invt.id === id);
+};

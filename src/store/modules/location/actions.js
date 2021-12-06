@@ -108,6 +108,11 @@ export const selectLocationToUpdate = ({ commit }, id) => {
 	commit('getLocationToUpdate', id);
 };
 
+/////////////////////// Remove validation errors ///////////////////////
+export const clearValidationErrors = ({ commit }) => {
+	commit('clearErrors');
+};
+
 /////////////////////// change locations status ///////////////////////
 
 export const changeLocationStatus = async ({ commit }, locationId) => {

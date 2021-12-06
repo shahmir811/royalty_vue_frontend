@@ -71,6 +71,9 @@ import { mapGetters, mapActions } from 'vuex';
 
 export default {
 	name: 'AddLocationPage',
+	mounted() {
+		this.clearValidationErrors();
+	},
 	computed: {
 		...mapGetters({
 			loading: 'location/loading',
@@ -88,6 +91,7 @@ export default {
 	methods: {
 		...mapActions({
 			addNewLocation: 'location/addNewLocation',
+			clearValidationErrors: 'location/clearValidationErrors',
 		}),
 		submitForm() {
 			this.addNewLocation(this.form);

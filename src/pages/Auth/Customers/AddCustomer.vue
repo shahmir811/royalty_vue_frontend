@@ -189,8 +189,4 @@ export default {
 
 <style lang="scss">
 @import '../../../styles/styles.scss';
-
-.text-left {
-	text-align: left;
-}
 </style>
