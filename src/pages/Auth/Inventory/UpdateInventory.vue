@@ -138,6 +138,7 @@
 								v-for="location in locations"
 								:key="location.id"
 								:value="location.id"
+								:disabled="location.status === 'Deactive'"
 							>
 								{{ location.name }}
 							</option>

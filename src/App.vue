@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 import Navbar from './components/Navbar/Navbar.vue';
 import Alert from './components/Alert/Alert';
@@ -35,11 +35,19 @@ export default {
 			isAuthenticated: 'auth/isAuthenticated',
 		}),
 	},
+	mounted() {
+		this.fetchTaxDetails();
+	},
 	components: {
 		Alert,
 		Navbar,
 		SideMenu,
 	}, // components end here
+	methods: {
+		...mapActions({
+			fetchTaxDetails: 'tax/fetchTaxDetails',
+		}),
+	},
 };
 </script>
 

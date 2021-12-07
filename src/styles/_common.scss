@@ -37,6 +37,11 @@
 	color: red;
 }
 
+.disableClick {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
 .lowInventory,
 .deactive {
 	background-color: $RED-3;
@@ -99,6 +104,10 @@ td[role='columnheader'] {
 	margin-left: 2px;
 }
 
+.ml-3 {
+	margin-left: 3px;
+}
+
 .ml-5 {
 	margin-left: 5px;
 }
@@ -125,4 +134,40 @@ td[role='columnheader'] {
 
 .w-195 {
 	width: 195px;
+}
+
+.mt-1 {
+	margin-top: 1px;
+}
+
+.mt-2 {
+	margin-top: 2px;
+}
+
+.mt-5 {
+	margin-top: 5px;
+}
+
+.mt-10 {
+	margin-top: 10px;
+}
+
+.mt-20 {
+	margin-top: 20px;
+}
+
+.mt-30 {
+	margin-top: 30px;
+}
+
+.mt-40 {
+	margin-top: 40px;
+}
+
+.mt-50 {
+	margin-top: 50px;
+}
+
+.mt-60 {
+	margin-top: 60px;
 }

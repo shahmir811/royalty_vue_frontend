@@ -4,6 +4,7 @@ const LocationState = {
 	pageLoad: false,
 	errors: [],
 	updateLocation: null,
+	activeLocations: [],
 };
 
 export default LocationState;

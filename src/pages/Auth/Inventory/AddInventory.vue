@@ -131,6 +131,7 @@
 							:class="{ 'is-invalid': errors.location_id }"
 							@change="onChangeHandler($event)"
 						>
+							<option value="" selected disabled>Select Location</option>
 							<option
 								v-for="location in locations"
 								:key="location.id"
@@ -196,11 +197,11 @@ export default {
 	name: 'AddInventoryPage',
 	mounted() {
 		this.clearValidationErrors();
-		this.fetchLocations();
+		this.fetchActiveLocations();
 	},
 	computed: {
 		...mapGetters({
-			locations: 'location/locations',
+			locations: 'location/activeLocations',
 			loading: 'invt/loading',
 			errors: 'invt/errors',
 		}),
@@ -226,7 +227,7 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			fetchLocations: 'location/fetchLocations',
+			fetchActiveLocations: 'location/fetchActiveLocations',
 			addNewInventoryItem: 'invt/addNewInventoryItem',
 			clearValidationErrors: 'invt/clearValidationErrors',
 		}),

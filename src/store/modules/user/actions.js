@@ -112,3 +112,8 @@ export const changeUserStatus = ({ commit }, userId) => {
 			});
 	});
 };
+
+/////////////////////// Clear all users state ///////////////////////
+export const clearUserState = ({ commit }) => {
+	commit('resetUserState');
+};

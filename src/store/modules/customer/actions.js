@@ -17,6 +17,7 @@ export const fetchCustomers = async ({ commit }) => {
 		commit('endPageLoad');
 	} catch (error) {
 		console.log(error);
+		commit('endPageLoad');
 	}
 };
 

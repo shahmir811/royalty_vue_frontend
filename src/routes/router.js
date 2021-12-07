@@ -12,6 +12,7 @@ import Users from '../pages/Auth/Users/Users.vue';
 import AddUser from '../pages/Auth/Users/AddUser.vue';
 import UpdateUser from '../pages/Auth/Users/UpdateUser.vue';
 import Tax from '../pages/Auth/Tax/Tax.vue';
+import UpdateTax from '../pages/Auth/Tax/UpdateTax.vue';
 import Inventory from '../pages/Auth/Inventory/Inventory.vue';
 import AddInventory from '../pages/Auth/Inventory/AddInventory.vue';
 import UpdateInventory from '../pages/Auth/Inventory/UpdateInventory.vue';
@@ -93,6 +94,12 @@ const router = new Router({
 			path: '/tax',
 			component: Tax,
 			name: 'tax',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/update-tax',
+			component: UpdateTax,
+			name: 'update-tax',
 			meta: { guest: false, needsAuth: true },
 		},
 		{

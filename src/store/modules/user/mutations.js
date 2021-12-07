@@ -29,3 +29,10 @@ export const changeUserStatus = (state, id) => {
 		user.status = 'Active';
 	}
 };
+
+export const resetUserState = state => {
+	state.users = [];
+	state.loading = false;
+	state.errors = [];
+	state.updateUser = null;
+};

@@ -13,6 +13,9 @@ export const setError = (state, payload) => (state.errors = payload);
 export const setLocationsList = (state, locations) =>
 	(state.locations = locations);
 
+export const setActiveLocationsList = (state, locations) =>
+	(state.activeLocations = locations);
+
 export const setLoading = (state, trueOrFalse) => (state.loading = trueOrFalse);
 
 export const getLocationToUpdate = (state, comingId) => {

@@ -67,13 +67,11 @@ export default {
 			logout: 'auth/logout',
 			clearAuthState: 'auth/clearAuthState',
 			clearUserState: 'user/clearUserState',
-			clearOrdersState: 'orders/clearOrdersState',
 		}),
 		exitApplication() {
 			this.logout().then(() => {
 				this.clearAuthState();
 				this.clearUserState();
-				this.clearOrdersState();
 			});
 		},
 	},
