@@ -1,0 +1,58 @@
+<template>
+	<table class="table table-striped table-bordered">
+		<thead class="">
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Location</th>
+				<th scope="col">Item</th>
+				<th scope="col">Price</th>
+				<th scope="col">Quantity</th>
+				<th scope="col">Amount</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr v-for="(record, index) in records" :key="index">
+				<td>{{ ++index }}</td>
+				<td>{{ record.location }}</td>
+				<td>{{ record.inventory }}</td>
+				<td>{{ record.price }}</td>
+				<td>{{ record.quantity }}</td>
+				<td>{{ record.total_price }}</td>
+				<td>
+					<button
+						class="btn btn sm btm-danger"
+						@click.prevent="edit(index - 1)"
+					>
+						<i class="fa fa-pencil" aria-hidden="true"></i>
+					</button>
+					<button
+						class="btn btn sm btm-danger"
+						@click.prevent="remove(index - 1)"
+					>
+						<i class="fa fa-trash" aria-hidden="true"></i>
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</template>
+
+<script>
+export default {
+	name: 'ItemsTablePage',
+	props: ['records'],
+	methods: {
+		remove(index) {
+			this.$emit('itemToDelete', index);
+		},
+		edit(index) {
+			this.$emit('itemToUpdate', index);
+		},
+	},
+};
+</script>
+
+<style lang="scss">
+@import '../../styles/styles.scss';
+</style>

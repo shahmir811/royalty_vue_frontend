@@ -115,7 +115,11 @@ export default {
 		},
 		onRowPrepared(e) {
 			if (e.rowType === 'data') {
-				if (e.data.quantity < 15) e.rowElement.classList.add('lowInventory');
+				const { quantity } = e.data;
+
+				if (quantity > 0 && quantity < 15)
+					e.rowElement.classList.add('lowInventory');
+				else if (quantity === 0) e.rowElement.classList.add('noInventory');
 			}
 		},
 	},

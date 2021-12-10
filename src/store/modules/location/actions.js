@@ -21,6 +21,24 @@ export const fetchLocations = async ({ commit }) => {
 	}
 };
 
+/////////////////////// Fetch active locations ///////////////////////
+
+export const fetchActiveLocations = async ({ commit }) => {
+	commit('startPageLoad');
+
+	const url = (await getURL()) + 'active-locations';
+
+	try {
+		const response = await axios.get(url);
+
+		commit('setActiveLocationsList', response.data.data.locations);
+
+		commit('endPageLoad');
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 /////////////////////// add new location ///////////////////////
 
 export const addNewLocation = async ({ commit, dispatch }, data) => {

@@ -23,24 +23,6 @@
 					</b-form-group>
 
 					<b-form-group
-						id="input-group-2"
-						label="Quantity:"
-						label-for="input-2"
-						class="input-form-label"
-					>
-						<b-form-input
-							id="input-2"
-							v-model="form.quantity"
-							type="number"
-							placeholder="Enter quantity"
-							:class="{ 'is-invalid': errors.quantity }"
-						></b-form-input>
-						<span class="invalid-feedback left-text" v-if="errors.quantity">
-							<strong>{{ errors.quantity[0] }}</strong>
-						</span>
-					</b-form-group>
-
-					<b-form-group
 						id="input-group-3"
 						label="CBM:"
 						label-for="input-3"
@@ -215,7 +197,7 @@ export default {
 		return {
 			form: {
 				item_name: '',
-				quantity: '',
+				quantity: 0,
 				cbm: '',
 				weight: '',
 				purchase_price: '',

@@ -5,7 +5,7 @@ import { getURL } from '../../../helpers/index';
 
 /////////////////////// Fetch all inventory items ///////////////////////
 
-export const fetchInventory = async ({ commit }) => {
+export const fetchInventory = async ({ commit, dispatch }) => {
 	commit('startPageLoad');
 
 	const url = (await getURL()) + 'inventory-list';
@@ -18,6 +18,29 @@ export const fetchInventory = async ({ commit }) => {
 		commit('endPageLoad');
 	} catch (error) {
 		console.log(error);
+		checkAndRedirect(error.response.status, dispatch);
+	}
+};
+
+/////////////////////// Fetch all inventory items ///////////////////////
+
+export const fetchLocationBasedInventory = async (
+	{ commit, dispatch },
+	locationId
+) => {
+	commit('startPageLoad');
+
+	const url = (await getURL()) + 'location-based-inventory/' + locationId;
+
+	try {
+		const response = await axios.get(url);
+
+		commit('setInventoryList', response.data.data.inventories);
+
+		commit('endPageLoad');
+	} catch (error) {
+		console.log(error);
+		checkAndRedirect(error.response.status, dispatch);
 	}
 };
 
@@ -47,6 +70,7 @@ export const addNewInventoryItem = async ({ commit, dispatch }, data) => {
 	} catch (error) {
 		console.log(error);
 		commit('setError', error.response.data.errors);
+		checkAndRedirect(error.response.status, dispatch);
 		commit('setLoading', false);
 	}
 };
@@ -79,6 +103,7 @@ export const updateInventoryItemDetails = async (
 	} catch (error) {
 		console.log(error);
 		commit('setError', error.response.data.errors);
+		checkAndRedirect(error.response.status, dispatch);
 		commit('setLoading', false);
 	}
 };
@@ -86,6 +111,7 @@ export const updateInventoryItemDetails = async (
 /////////////////////// Fetch All inventory items From Update inventory detail page ///////////////////////
 export const fetchInventoryItemsFromUpdateInventoryItemPage = async ({
 	commit,
+	dispatch,
 }) => {
 	commit('setLoading', true);
 
@@ -102,6 +128,7 @@ export const fetchInventoryItemsFromUpdateInventoryItemPage = async ({
 			.catch(error => {
 				console.log(error);
 				commit('setLoading', false);
+				checkAndRedirect(error.response.status, dispatch);
 				reject();
 			});
 	});
@@ -116,4 +143,13 @@ export const selectInventoryToUpdate = ({ commit }, id) => {
 /////////////////////// Remove validation errors ///////////////////////
 export const clearValidationErrors = ({ commit }) => {
 	commit('clearErrors');
+};
+
+/////////////////////// clear Auth State and redirect ///////////////////////
+const checkAndRedirect = (status, dispatch) => {
+	if (status === 401) {
+		router.push('/login');
+
+		dispatch('root/auth/clearAuth', { root: true });
+	}
 };

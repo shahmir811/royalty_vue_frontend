@@ -42,9 +42,13 @@
 	pointer-events: none;
 }
 
-.lowInventory,
+.noInventory,
 .deactive {
 	background-color: $RED-3;
+}
+
+.lowInventory {
+	background-color: $WARNING;
 }
 
 td[role='columnheader'] {
@@ -57,6 +61,14 @@ td[role='columnheader'] {
 
 .mt-20 {
 	margin-top: 20px;
+}
+
+.pl-0 {
+	padding-left: 0px;
+}
+
+.pl-40 {
+	padding-left: 40px !important;
 }
 
 .pr-20 {

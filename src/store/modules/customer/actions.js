@@ -4,7 +4,7 @@ import { getURL } from '../../../helpers/index';
 
 /////////////////////// Fetch all customers ///////////////////////
 
-export const fetchCustomers = async ({ commit }) => {
+export const fetchCustomers = async ({ commit, dispatch }) => {
 	commit('startPageLoad');
 
 	const url = (await getURL()) + 'customers';
@@ -17,6 +17,7 @@ export const fetchCustomers = async ({ commit }) => {
 		commit('endPageLoad');
 	} catch (error) {
 		console.log(error);
+		checkAndRedirect(error.response.status, dispatch);
 		commit('endPageLoad');
 	}
 };
@@ -47,6 +48,7 @@ export const addNewCustomer = async ({ commit, dispatch }, data) => {
 	} catch (error) {
 		console.log(error);
 		commit('setError', error.response.data.errors);
+		checkAndRedirect(error.response.status, dispatch);
 		commit('setLoading', false);
 	}
 };
@@ -76,12 +78,16 @@ export const updateCustomerDetails = async ({ commit, dispatch }, data) => {
 	} catch (error) {
 		console.log(error);
 		commit('setError', error.response.data.errors);
+		checkAndRedirect(error.response.status, dispatch);
 		commit('setLoading', false);
 	}
 };
 
 /////////////////////// Fetch All Customers From Update Customer page ///////////////////////
-export const fetchCustomersFromUpdateCustomerPage = async ({ commit }) => {
+export const fetchCustomersFromUpdateCustomerPage = async ({
+	commit,
+	dispatch,
+}) => {
 	commit('setLoading', true);
 
 	const url = (await getURL()) + 'customers';
@@ -97,6 +103,7 @@ export const fetchCustomersFromUpdateCustomerPage = async ({ commit }) => {
 			.catch(error => {
 				console.log(error);
 				commit('setLoading', false);
+				checkAndRedirect(error.response.status, dispatch);
 				reject();
 			});
 	});
@@ -115,7 +122,10 @@ export const clearValidationErrors = ({ commit }) => {
 
 /////////////////////// change customer status ///////////////////////
 
-export const changeCustomerStatus = async ({ commit }, customerId) => {
+export const changeCustomerStatus = async (
+	{ commit, dispatch },
+	customerId
+) => {
 	const url = (await getURL()) + 'change-customer-status';
 
 	return new Promise((resolve, reject) => {
@@ -127,7 +137,17 @@ export const changeCustomerStatus = async ({ commit }, customerId) => {
 			})
 			.catch(error => {
 				console.log(error);
+				checkAndRedirect(error.response.status, dispatch);
 				reject();
 			});
 	});
+};
+
+/////////////////////// clear Auth State and redirect ///////////////////////
+const checkAndRedirect = (status, dispatch) => {
+	if (status === 401) {
+		router.push('/login');
+
+		dispatch('root/auth/clearAuth', { root: true });
+	}
 };

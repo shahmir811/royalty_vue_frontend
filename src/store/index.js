@@ -14,6 +14,7 @@ import location from './modules/location';
 import customer from './modules/customer';
 import inventory from './modules/inventory';
 import tax from './modules/tax';
+import purchase from './modules/purchase';
 
 export default new Vuex.Store({
 	state,
@@ -26,6 +27,7 @@ export default new Vuex.Store({
 		location,
 		customer,
 		tax,
+		purchase,
 		invt: inventory,
 	},
 });
