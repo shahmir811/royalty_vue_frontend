@@ -179,13 +179,16 @@ export default {
 	name: 'AddInventoryPage',
 	mounted() {
 		this.clearValidationErrors();
-		this.fetchActiveLocations();
+		if (this.isAuthenticated) {
+			this.fetchActiveLocations();
+		}
 	},
 	computed: {
 		...mapGetters({
 			locations: 'location/activeLocations',
 			loading: 'invt/loading',
 			errors: 'invt/errors',
+			isAuthenticated: 'auth/isAuthenticated',
 		}),
 		lowSalePrice() {
 			const condition =

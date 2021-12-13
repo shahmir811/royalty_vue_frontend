@@ -76,7 +76,7 @@ import Spinner from '../../../components/Spinner/Spinner.vue';
 export default {
 	name: 'UpdateTaxPage',
 	mounted() {
-		if (!this.taxPercent) {
+		if (!this.taxPercent && this.isAuthenticated) {
 			this.getTax().then(() => {
 				this.showTax = this.show;
 				this.taxPercent = this.tax;
@@ -93,6 +93,7 @@ export default {
 			show: 'tax/showTax',
 			tax: 'tax/taxPercent',
 			pageLoad: 'tax/pageLoad',
+			isAuthenticated: 'auth/isAuthenticated',
 		}),
 	},
 	data() {

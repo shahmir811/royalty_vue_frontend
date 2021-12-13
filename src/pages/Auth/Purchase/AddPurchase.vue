@@ -146,7 +146,9 @@ import ItemsTable from '../../../components/ItemsTable/ItemsTable.vue';
 export default {
 	name: 'AddPurchasePage',
 	mounted() {
-		this.fetchActiveLocations();
+		if (this.isAuthenticated) {
+			this.fetchActiveLocations();
+		}
 	},
 	components: {
 		ItemsTable,
@@ -172,6 +174,7 @@ export default {
 			inventories: 'invt/inventories',
 			fetchingInvt: 'invt/loading',
 			loading: 'purchase/loading',
+			isAuthenticated: 'auth/isAuthenticated',
 		}),
 		similarItemSelected() {
 			const index = this.details.findIndex(

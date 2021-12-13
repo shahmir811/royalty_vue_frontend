@@ -89,6 +89,6 @@ const checkAndRedirect = (status, dispatch) => {
 		console.log('Check and redirect function');
 		router.push('/login');
 
-		dispatch('root/auth/clearAuth', { root: true });
+		dispatch('auth/clearAuth', '', { root: true });
 	}
 };

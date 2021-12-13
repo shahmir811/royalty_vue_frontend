@@ -148,6 +148,6 @@ const checkAndRedirect = (status, dispatch) => {
 	if (status === 401) {
 		router.push('/login');
 
-		dispatch('root/auth/clearAuth', { root: true });
+		dispatch('auth/clearAuth', '', { root: true });
 	}
 };

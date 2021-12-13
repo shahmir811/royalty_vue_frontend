@@ -36,7 +36,9 @@ export default {
 		}),
 	},
 	mounted() {
-		this.fetchTaxDetails();
+		if (this.isAuthenticated) {
+			this.fetchTaxDetails();
+		}
 	},
 	components: {
 		Alert,

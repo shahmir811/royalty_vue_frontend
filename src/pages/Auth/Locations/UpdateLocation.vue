@@ -68,7 +68,7 @@
 
 		<b-row v-else>
 			<div class="text-center">
-				<b-spinner label="Spinning"></b-spinner>
+				<Spinner />
 			</div>
 		</b-row>
 	</div>
@@ -76,6 +76,8 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+
+import Spinner from '../../../components/Spinner/Spinner.vue';
 
 export default {
 	name: 'UpdateLocationPage',
@@ -97,6 +99,9 @@ export default {
 				this.form = { ...this.updateLocation };
 			});
 		}
+	},
+	components: {
+		Spinner,
 	},
 	data() {
 		return {
