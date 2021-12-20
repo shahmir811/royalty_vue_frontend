@@ -3,7 +3,7 @@ const PurchaseState = {
 	loading: false,
 	pageLoad: false,
 	errors: [],
-	updatePurchase: null,
+	selectedPurchase: null,
 };
 
 export default PurchaseState;

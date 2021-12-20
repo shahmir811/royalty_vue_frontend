@@ -39,11 +39,16 @@
 				>
 					<DxColumn data-field="item_name" :fixed="true" sort-order="asc" />
 					<DxColumn data-field="quantity" alignment="center" />
-					<DxColumn data-field="package" caption="Package" />
+					<DxColumn
+						data-field="avg_price"
+						alignment="center"
+						caption="Avg. Price"
+					/>
 					<DxColumn data-field="purchase_price" alignment="center" />
 					<DxColumn data-field="sale_price" alignment="center" />
 					<DxColumn data-field="location" />
 					<DxColumn data-field="status" alignment="center" />
+					<DxColumn data-field="package" caption="Package" alignment="center" />
 
 					<DxSelection mode="single" />
 					<DxFilterRow :visible="true" />

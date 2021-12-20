@@ -15,14 +15,17 @@ import Tax from '../pages/Auth/Tax/Tax.vue';
 import UpdateTax from '../pages/Auth/Tax/UpdateTax.vue';
 import Inventory from '../pages/Auth/Inventory/Inventory.vue';
 import AddInventory from '../pages/Auth/Inventory/AddInventory.vue';
+import ShowInventory from '../pages/Auth/Inventory/ShowInventory.vue';
 import UpdateInventory from '../pages/Auth/Inventory/UpdateInventory.vue';
 import Sales from '../pages/Auth/Sales/Sales.vue';
 import Purchase from '../pages/Auth/Purchase/Purchase.vue';
 import AddPurchase from '../pages/Auth/Purchase/AddPurchase.vue';
-import UpdatePurchase from '../pages/Auth/Purchase/UpdatePurchase.vue';
+import ShowPurchase from '../pages/Auth/Purchase/ShowPurchase.vue';
+import PurchaseDetails from '../pages/Auth/Purchase/Details.vue';
 import SalesQuotation from '../pages/Auth/SalesQuotation/SalesQuotation.vue';
 import Customers from '../pages/Auth/Customers/Customers.vue';
 import AddCustomer from '../pages/Auth/Customers/AddCustomer.vue';
+import ShowCustomer from '../pages/Auth/Customers/ShowCustomer.vue';
 import UpdateCustomer from '../pages/Auth/Customers/UpdateCustomer.vue';
 import CustomerCredit from '../pages/Auth/CustomerCredit/CustomerCredit.vue';
 import Locations from '../pages/Auth/Locations/Locations.vue';
@@ -81,6 +84,12 @@ const router = new Router({
 			meta: { guest: false, needsAuth: true },
 		},
 		{
+			path: '/show-customer/:id',
+			component: ShowCustomer,
+			name: 'show-customer',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
 			path: '/update-customer/:id',
 			component: UpdateCustomer,
 			name: 'update-customer',
@@ -117,12 +126,17 @@ const router = new Router({
 			meta: { guest: false, needsAuth: true },
 		},
 		{
+			path: '/show-inventory/:id',
+			component: ShowInventory,
+			name: 'show-inventory',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
 			path: '/update-inventory/:id',
 			component: UpdateInventory,
 			name: 'update-inventory',
 			meta: { guest: false, needsAuth: true },
 		},
-
 		{
 			path: '/sales',
 			component: Sales,
@@ -166,9 +180,15 @@ const router = new Router({
 			meta: { guest: false, needsAuth: true },
 		},
 		{
-			path: '/update-purchase/:id',
-			component: UpdatePurchase,
-			name: 'update-purchase',
+			path: '/show-purchase/:id',
+			component: ShowPurchase,
+			name: 'show-purchase',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/purchase-details/:id',
+			component: PurchaseDetails,
+			name: 'purchase-details',
 			meta: { guest: false, needsAuth: true },
 		},
 		{

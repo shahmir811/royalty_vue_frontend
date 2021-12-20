@@ -17,6 +17,18 @@
 				<router-link
 					v-if="selectedCustomer"
 					:to="{
+						name: 'show-customer',
+						params: { id: selectedCustomer.id },
+					}"
+				>
+					<b-button
+						class="admin-users-component-add-new-inventory-button w-195 ml-2"
+						><i class="fa fa-bars" aria-hidden="true"></i> Details</b-button
+					>
+				</router-link>
+				<router-link
+					v-if="selectedCustomer"
+					:to="{
 						name: 'update-customer',
 						params: { id: selectedCustomer.id },
 					}"

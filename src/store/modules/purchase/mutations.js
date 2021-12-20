@@ -12,10 +12,34 @@ export const setError = (state, payload) => (state.errors = payload);
 
 export const setLoading = (state, trueOrFalse) => (state.loading = trueOrFalse);
 
+export const setSelectedPurchase = (state, payload) =>
+	(state.selectedPurchase = payload);
+
 export const setPurchaseList = (state, purchases) =>
 	(state.purchases = purchases);
 
 export const getPurchaseItemToUpdate = (state, comingId) => {
 	const id = parseInt(comingId);
 	state.updatePurchase = state.purchases.find(purchase => purchase.id === id);
+};
+
+export const removeItem = (state, id) => {
+	if (state.selectedPurchase) {
+		const index = state.selectedPurchase.details.findIndex(
+			detail => detail.id === id
+		);
+
+		// state.selectedPurchase.total_amount -=
+		// 	state.selectedPurchase.details[index].total_amount;
+
+		if (index > -1) {
+			const amount = state.selectedPurchase.details[index].total_price;
+			state.selectedPurchase.total_amount -= amount;
+			state.selectedPurchase.details.splice(index, 1);
+		}
+
+		// return state.selectedPurchase.details.filter(
+		// 	detail => detail.id !== parseInt(id)
+		// );
+	}
 };

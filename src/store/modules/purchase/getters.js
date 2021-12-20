@@ -6,4 +6,4 @@ export const purchases = state => state.purchases;
 
 export const errors = state => state.errors;
 
-export const updatePurchase = state => state.updatePurchase;
+export const selectedPurchase = state => state.selectedPurchase;

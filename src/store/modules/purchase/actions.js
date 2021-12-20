@@ -53,6 +53,30 @@ export const addNewPurchase = async ({ commit, dispatch }, data) => {
 	}
 };
 
+/////////////////////// Show Purchase Details ///////////////////////
+export const getPurchaseDetails = async ({ commit, dispatch }, id) => {
+	commit('startPageLoad');
+	commit('clearErrors');
+
+	const url = (await getURL()) + 'show-purchase/' + id;
+
+	return new Promise((resolve, reject) => {
+		axios
+			.get(url)
+			.then(response => {
+				commit('setSelectedPurchase', response.data.data.purchase);
+				commit('endPageLoad');
+				resolve();
+			})
+			.catch(error => {
+				console.log(error);
+				commit('endPageLoad');
+				checkAndRedirect(error.response.status, dispatch);
+				reject();
+			});
+	});
+};
+
 /////////////////////// Update Purchase Details ///////////////////////
 export const updatePurchaseDetails = async ({ commit, dispatch }, data) => {
 	commit('setLoading', true);
@@ -83,12 +107,41 @@ export const updatePurchaseDetails = async ({ commit, dispatch }, data) => {
 	}
 };
 
+/////////////////////// Remove inventory item from purchase ///////////////////////
+export const removedPurchasedItemRecord = async ({ commit, dispatch }, id) => {
+	commit('setLoading', true);
+
+	try {
+		const url = (await getURL()) + 'remove-purchased-item/' + id;
+
+		await axios.delete(`${url}`);
+
+		// const response = await axios.delete(`${url}`);
+		// commit('setSelectedPurchase', response.data.data.purchase);
+		commit('removeItem', id);
+
+		// dispatch('purchase/getPurchaseDetails', { id }, { root: true });
+
+		dispatch(
+			'flashMessage',
+			{
+				message: 'Purchased item has been removed',
+				type: 'success',
+			},
+			{ root: true }
+		);
+
+		commit('setLoading', false);
+	} catch (error) {
+		console.log(error);
+		checkAndRedirect(error.response.status, dispatch);
+		commit('setLoading', false);
+	}
+};
+
 /////////////////////// clear Auth State and redirect ///////////////////////
 const checkAndRedirect = (status, dispatch) => {
 	if (status === 401) {
-		console.log('Check and redirect function');
-		router.push('/login');
-
 		dispatch('auth/clearAuth', '', { root: true });
 	}
 };

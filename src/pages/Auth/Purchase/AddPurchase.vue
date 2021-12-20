@@ -1,31 +1,32 @@
 <template>
 	<div>
 		<h1 class="page-title">New Purchase</h1>
-		<p>Details: {{ details.length }} Inventory Id: {{ inventory_id }}</p>
 
-		<b-row class="justify-content-md-center">
-			<b-col col cols="12" md="auto">
+		<div class="grid-container">
+			<div class="grid-item"></div>
+			<div class="grid-item">
 				<h3>Local Purchase:</h3>
-			</b-col>
-			<b-col col lg="2">
+			</div>
+			<div class="grid-item">
 				<b-form-checkbox
 					size="lg"
 					value="1"
 					v-model="local_purchase"
 				></b-form-checkbox>
-			</b-col>
-			<b-col col lg="2"></b-col>
-		</b-row>
+			</div>
+			<div class="grid-item"></div>
+		</div>
 
-		<b-row class="justify-content-md-center">
-			<b-col col cols="12" md="auto" class="pl-0">
+		<div class="grid-container">
+			<div class="grid-item"></div>
+			<div class="grid-item">
 				<h3>Total Amount:</h3>
-			</b-col>
-			<b-col col lg="2" class="pl-40">
-				<h4>{{ total_amount }}</h4>
-			</b-col>
-			<b-col col lg="2"></b-col>
-		</b-row>
+			</div>
+			<div class="grid-item">
+				<h4>{{ parseFloat(total_amount).toFixed(2) }}</h4>
+			</div>
+			<div class="grid-item"></div>
+		</div>
 
 		<b-row class="ml-1">
 			<b-button
@@ -297,5 +298,16 @@ export default {
 .alert-span {
 	padding-top: 10px;
 	color: red;
+}
+
+.grid-container {
+	display: grid;
+	grid-template-columns: 300px 500px 200px 100px;
+	grid-gap: 10px;
+}
+
+.grid-item {
+	text-align: left;
+	padding: 20px 0;
 }
 </style>

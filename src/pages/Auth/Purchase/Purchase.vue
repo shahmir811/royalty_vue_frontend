@@ -17,14 +17,13 @@
 				<router-link
 					v-if="selectedPurchase"
 					:to="{
-						name: 'update-purchase',
+						name: 'purchase-details',
 						params: { id: selectedPurchase.id },
 					}"
 				>
 					<b-button
 						class="admin-users-component-add-new-inventory-button w-195 ml-2"
-						><i class="fa fa-pencil" aria-hidden="true"></i> Update
-						Purchase</b-button
+						><i class="fa fa-bars" aria-hidden="true"></i> Details</b-button
 					>
 				</router-link>
 			</b-row>
@@ -56,6 +55,7 @@
 						caption="Purchase Date"
 						alignment="center"
 					/>
+					<DxColumn data-field="status" caption="Status" alignment="center" />
 
 					<DxSelection mode="single" />
 					<DxFilterRow :visible="true" />

@@ -146,8 +146,6 @@ export const changeCustomerStatus = async (
 /////////////////////// clear Auth State and redirect ///////////////////////
 const checkAndRedirect = (status, dispatch) => {
 	if (status === 401) {
-		router.push('/login');
-
 		dispatch('auth/clearAuth', '', { root: true });
 	}
 };
