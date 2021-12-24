@@ -31,6 +31,9 @@ import CustomerCredit from '../pages/Auth/CustomerCredit/CustomerCredit.vue';
 import Locations from '../pages/Auth/Locations/Locations.vue';
 import AddLocation from '../pages/Auth/Locations/AddLocation.vue';
 import UpdateLocation from '../pages/Auth/Locations/UpdateLocation.vue';
+import Items from '../pages/Auth/Items/Items.vue';
+import AddItem from '../pages/Auth/Items/AddItem.vue';
+import UpdateItem from '../pages/Auth/Items/UpdateItem.vue';
 
 const router = new Router({
 	mode: 'history',
@@ -189,6 +192,24 @@ const router = new Router({
 			path: '/purchase-details/:id',
 			component: PurchaseDetails,
 			name: 'purchase-details',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/items',
+			component: Items,
+			name: 'items',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/add-item',
+			component: AddItem,
+			name: 'add-item',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/update-items/:id',
+			component: UpdateItem,
+			name: 'update-item',
 			meta: { guest: false, needsAuth: true },
 		},
 		{

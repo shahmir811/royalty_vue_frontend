@@ -15,6 +15,7 @@ import customer from './modules/customer';
 import inventory from './modules/inventory';
 import tax from './modules/tax';
 import purchase from './modules/purchase';
+import items from './modules/items';
 
 export default new Vuex.Store({
 	state,
@@ -29,5 +30,6 @@ export default new Vuex.Store({
 		tax,
 		purchase,
 		invt: inventory,
+		items: items,
 	},
 });
