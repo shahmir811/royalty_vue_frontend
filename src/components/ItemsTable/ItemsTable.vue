@@ -15,11 +15,11 @@
 			<tr v-for="(record, index) in records" :key="index">
 				<td>{{ ++index }}</td>
 				<td>{{ record.location }}</td>
-				<td>{{ record.inventory }}</td>
+				<td>{{ record.item }}</td>
 				<td>{{ record.price }}</td>
 				<td>{{ record.quantity }}</td>
 				<td>{{ record.total_price }}</td>
-				<td>
+				<td v-if="status !== 'Received'">
 					<button
 						class="btn btn sm btm-danger"
 						@click.prevent="edit(index - 1)"
@@ -41,7 +41,7 @@
 <script>
 export default {
 	name: 'ItemsTablePage',
-	props: ['records'],
+	props: ['records', 'status'],
 	methods: {
 		remove(index) {
 			this.$emit('itemToDelete', index);

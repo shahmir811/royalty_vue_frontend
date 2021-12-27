@@ -26,6 +26,24 @@
 						><i class="fa fa-bars" aria-hidden="true"></i> Details</b-button
 					>
 				</router-link>
+
+				<b-button
+					v-if="selectedPurchase && selectedPurchase.status === 'Pending'"
+					href="#"
+					class="admin-users-component-change-status-button ml-2"
+					@click.prevent="onChangeStatusHandler(selectedPurchase.id)"
+				>
+					<i class="fa fa-handshake-o" aria-hidden="true"></i> Change Status
+				</b-button>
+
+				<b-button
+					v-if="selectedPurchase && selectedPurchase.status === 'Pending'"
+					href="#"
+					class="admin-users-component-change-status-button ml-2"
+					@click.prevent="onDeletePurchaseHandler(selectedPurchase.id)"
+				>
+					<i class="fa fa-times" aria-hidden="true"></i> Remove
+				</b-button>
 			</b-row>
 
 			<b-row class="pr-20">
@@ -117,6 +135,8 @@ export default {
 	methods: {
 		...mapActions({
 			fetchPurchases: 'purchase/fetchPurchases',
+			remove: 'purchase/removePurchaseOrder',
+			changeStatus: 'purchase/changePurchaseStatusOnServer',
 		}),
 		selectPurchase(e) {
 			e.component.byKey(e.currentSelectedRowKeys[0]).done(purchase => {
@@ -131,6 +151,58 @@ export default {
 					e.cellElement.className += ' deactive';
 				}
 			}
+
+			if (e.rowType == 'data' && e.column.dataField == 'status') {
+				if (e.data.status === 'Pending') {
+					e.cellElement.className += ' pending';
+				}
+			}
+		},
+		onChangeStatusHandler(id) {
+			this.$swal
+				.fire({
+					title: 'Are you sure to change this purchase order status?',
+					text: "You won't be able to revert this!",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Yes, change it!',
+				})
+				.then(result => {
+					if (result.value) {
+						this.changeStatus(id).then(() => {
+							this.$swal.fire(
+								'Done!',
+								'Purchase order has been received.',
+								'success'
+							);
+						});
+					}
+				});
+		},
+		onDeletePurchaseHandler(id) {
+			this.$swal
+				.fire({
+					title: 'Are you sure to remove this purchase order?',
+					text: "You won't be able to revert this!",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Yes, remove it!',
+				})
+				.then(result => {
+					if (result.value) {
+						this.remove(id).then(() => {
+							this.$swal.fire(
+								'Done!',
+								'Purchase order has been removed.',
+								'success'
+							);
+						});
+					}
+				});
 		},
 	},
 };

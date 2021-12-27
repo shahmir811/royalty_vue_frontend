@@ -72,15 +72,19 @@
 				</b-col>
 				<b-col>
 					<label for="Item">Item</label>
-					<select class="custom-select" v-model="inventory_id">
+					<select
+						class="custom-select"
+						@change="onItemChangeHandler"
+						v-model="item_id"
+					>
 						<option selected disabled value="null">Select Item</option>
 						<option
-							v-for="item in inventories"
+							v-for="item in items"
 							:key="item.id"
 							:value="item.id"
-							:disabled="editMode"
+							:disabled="editMode || !location_id"
 						>
-							{{ item.item_name }}
+							{{ item.name }}
 						</option>
 					</select>
 				</b-col>
@@ -91,7 +95,7 @@
 							type="number"
 							class="form-control"
 							id="price"
-							:disabled="!inventory_id"
+							:disabled="!item_id"
 							v-model="price"
 						/>
 					</div>
@@ -148,6 +152,7 @@ export default {
 	name: 'AddPurchasePage',
 	mounted() {
 		if (this.isAuthenticated) {
+			this.fetchAllItems();
 			this.fetchActiveLocations();
 		}
 	},
@@ -156,6 +161,8 @@ export default {
 	},
 	data() {
 		return {
+			item_id: null,
+			item: '',
 			local_purchase: 1,
 			total_amount: 0,
 			location_id: null,
@@ -171,6 +178,7 @@ export default {
 	},
 	computed: {
 		...mapGetters({
+			items: 'items/items',
 			locations: 'location/activeLocations',
 			inventories: 'invt/inventories',
 			fetchingInvt: 'invt/loading',
@@ -179,13 +187,16 @@ export default {
 		}),
 		similarItemSelected() {
 			const index = this.details.findIndex(
-				detail => detail.inventory_id === this.inventory_id
+				detail =>
+					detail.location_id === this.location_id &&
+					detail.item_id === this.item_id
 			);
-			return this.inventory_id && !this.editMode && index > -1 ? true : false;
+			return this.item_id && !this.editMode && index > -1 ? true : false;
 		},
 	},
 	methods: {
 		...mapActions({
+			fetchAllItems: 'items/fetchAllItems',
 			fetchActiveLocations: 'location/fetchActiveLocations',
 			getItemsList: 'invt/fetchLocationBasedInventory',
 			addNewPurchase: 'purchase/addNewPurchase',
@@ -194,26 +205,33 @@ export default {
 			this.$router.push('/purchase');
 		},
 		onLocationChangeHandler(e) {
-			this.inventory_id = null;
+			// this.inventory_id = null;
 			this.price = '';
 			const locationId = e.target.value;
-
 			const selectedLocation = this.locations.find(
 				location => location.id === parseInt(locationId)
 			);
 			this.location = selectedLocation ? selectedLocation.name : '';
-			this.getItemsList(locationId);
+			// this.getItemsList(locationId);
+		},
+		onItemChangeHandler(e) {
+			const itemId = e.target.value;
+			const selectedItem = this.items.find(
+				item => item.id === parseInt(itemId)
+			);
+			this.item = selectedItem ? selectedItem.name : '';
 		},
 		submitForm() {
+			console.log('Submit Form');
 			this.editMode = false;
 			const amount = this.price * this.quantity;
-			const selectedItem = this.inventories.find(
-				item => item.id === this.inventory_id
-			);
-			this.inventory = selectedItem ? selectedItem.item_name : '';
+			// const selectedItem = this.inventories.find(
+			// 	item => item.id === this.inventory_id
+			// );
+			// this.inventory = selectedItem ? selectedItem.item_name : '';
 
 			const index = this.details.findIndex(
-				i => i.inventory_id === this.inventory_id
+				i => i.location_id === this.location_id && i.item_id === this.item_id
 			);
 
 			if (index > -1) {
@@ -226,6 +244,8 @@ export default {
 					location: this.location,
 					inventory_id: this.inventory_id,
 					inventory: this.inventory,
+					item_id: this.item_id,
+					item: this.item,
 					price: this.price,
 					quantity: this.quantity,
 					total_price: amount,
@@ -242,12 +262,10 @@ export default {
 			this.location_id = null;
 			this.inventory = '';
 			this.inventory_id = null;
+			this.item = '';
+			this.item_id = null;
 			this.price = '';
 			this.quantity = '';
-		},
-		recordAlreadyExists(id) {
-			const index = this.details.findIndex(i => i.inventory_id === id);
-			return index > -1 ? true : false; // returns -1 if record not found
 		},
 		removeRecord(index) {
 			this.$swal
@@ -273,7 +291,8 @@ export default {
 			this.editMode = true;
 			this.selectedRecord = this.details[index];
 			this.location_id = this.selectedRecord.location_id;
-			this.inventory_id = this.selectedRecord.inventory_id;
+			// this.inventory_id = this.selectedRecord.inventory_id;
+			this.item_id = this.selectedRecord.item_id;
 			this.price = this.selectedRecord.price;
 			this.quantity = this.selectedRecord.quantity;
 		},

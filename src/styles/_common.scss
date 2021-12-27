@@ -47,7 +47,8 @@
 	background-color: $RED-3;
 }
 
-.lowInventory {
+.lowInventory,
+.pending {
 	background-color: $WARNING;
 }
 

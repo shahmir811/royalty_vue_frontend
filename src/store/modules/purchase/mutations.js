@@ -23,6 +23,18 @@ export const getPurchaseItemToUpdate = (state, comingId) => {
 	state.updatePurchase = state.purchases.find(purchase => purchase.id === id);
 };
 
+export const removePurchase = (state, id) => {
+	return (state.purchases = state.purchases.filter(
+		purchase => purchase.id !== id
+	));
+};
+
+export const changePurchaseStatus = (state, id) => {
+	const purchase = state.purchases.find(purchase => purchase.id === id);
+	purchase.status = 'Received';
+	return state.purchases;
+};
+
 export const removeItem = (state, id) => {
 	if (state.selectedPurchase) {
 		const index = state.selectedPurchase.details.findIndex(
