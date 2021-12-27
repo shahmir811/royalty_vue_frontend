@@ -116,11 +116,7 @@ export const removedPurchasedItemRecord = async ({ commit, dispatch }, id) => {
 
 		await axios.delete(`${url}`);
 
-		// const response = await axios.delete(`${url}`);
-		// commit('setSelectedPurchase', response.data.data.purchase);
 		commit('removeItem', id);
-
-		// dispatch('purchase/getPurchaseDetails', { id }, { root: true });
 
 		dispatch(
 			'flashMessage',
@@ -130,6 +126,45 @@ export const removedPurchasedItemRecord = async ({ commit, dispatch }, id) => {
 			},
 			{ root: true }
 		);
+
+		commit('setLoading', false);
+	} catch (error) {
+		console.log(error);
+		checkAndRedirect(error.response.status, dispatch);
+		commit('setLoading', false);
+	}
+};
+
+/////////////////////// Change purchase status ///////////////////////
+export const changePurchaseStatusOnServer = async (
+	{ commit, dispatch },
+	id
+) => {
+	commit('setLoading', true);
+
+	try {
+		const url = (await getURL()) + 'change-purchase-status/' + id;
+
+		await axios.get(`${url}`);
+		commit('changePurchaseStatus', id);
+
+		commit('setLoading', false);
+	} catch (error) {
+		console.log(error);
+		checkAndRedirect(error.response.status, dispatch);
+		commit('setLoading', false);
+	}
+};
+
+/////////////////////// Remove purchase Order ///////////////////////
+export const removePurchaseOrder = async ({ commit, dispatch }, id) => {
+	commit('setLoading', true);
+
+	try {
+		const url = (await getURL()) + 'remove-purchase-record/' + id;
+
+		await axios.get(`${url}`);
+		commit('removePurchase', id);
 
 		commit('setLoading', false);
 	} catch (error) {

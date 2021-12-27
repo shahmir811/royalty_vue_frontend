@@ -99,7 +99,7 @@
 
 					<b-form-group
 						id="input-group-6"
-						label="Country Contact No:"
+						label="Cargo Address:"
 						label-for="input-6"
 						class="input-form-label"
 					>

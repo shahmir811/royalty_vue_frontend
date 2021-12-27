@@ -15,8 +15,9 @@
 				<div class="grid-item">
 					<b-form-checkbox
 						size="lg"
-						value="1"
 						v-model="local_purchase"
+						:checkbox="local_purchase"
+						:disabled="purchaseStatus === 'Received'"
 					></b-form-checkbox>
 				</div>
 				<div class="grid-item"></div>
@@ -44,23 +45,32 @@
 				<div class="grid-item"></div>
 			</div>
 
-			<b-row class="ml-1">
-				<b-button
-					variant="success"
-					@click.prevent="savePurchase"
-					:disabled="loading"
-				>
-					<i class="fa fa-floppy-o" aria-hidden="true"></i> Save
-				</b-button>
-				<b-button
-					variant="danger"
-					class="ml-2"
-					@click.prevent="goBack"
-					:disabled="loading"
-				>
-					<i class="fa fa-times" aria-hidden="true"></i> Cancel
-				</b-button>
-			</b-row>
+			<template v-if="purchaseStatus !== 'Received'">
+				<b-row class="ml-1">
+					<b-button
+						variant="success"
+						@click.prevent="savePurchase"
+						:disabled="loading"
+					>
+						<i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+					</b-button>
+					<b-button
+						variant="danger"
+						class="ml-2"
+						@click.prevent="goBack"
+						:disabled="loading"
+					>
+						<i class="fa fa-times" aria-hidden="true"></i> Cancel
+					</b-button>
+				</b-row>
+			</template>
+			<template v-else>
+				<b-row class="ml-1">
+					<b-button variant="primary" class="ml-2" @click.prevent="goBack">
+						<i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+					</b-button>
+				</b-row>
+			</template>
 
 			<hr />
 
@@ -88,15 +98,19 @@
 					</b-col>
 					<b-col>
 						<label for="Item">Item</label>
-						<select class="custom-select" v-model="inventory_id">
+						<select
+							class="custom-select"
+							@change="onItemChangeHandler"
+							v-model="item_id"
+						>
 							<option selected disabled value="null">Select Item</option>
 							<option
-								v-for="item in inventories"
+								v-for="item in items"
 								:key="item.id"
 								:value="item.id"
-								:disabled="editMode"
+								:disabled="editMode || !location_id"
 							>
-								{{ item.item_name }}
+								{{ item.name }}
 							</option>
 						</select>
 					</b-col>
@@ -107,7 +121,7 @@
 								type="number"
 								class="form-control"
 								id="price"
-								:disabled="!inventory_id"
+								:disabled="!item_id"
 								v-model="price"
 							/>
 						</div>
@@ -147,6 +161,7 @@
 				<b-row>
 					<ItemsTable
 						:records="details"
+						:status="purchaseStatus"
 						@itemToDelete="removeRecord"
 						@itemToUpdate="editRecord"
 					/>
@@ -172,6 +187,7 @@ export default {
 
 		if (this.isAuthenticated) {
 			this.fetchActiveLocations();
+			this.fetchAllItems();
 			this.getPurchaseDetails(this.$route.params.id).then(() => {
 				this.updateValues();
 			});
@@ -183,8 +199,10 @@ export default {
 	},
 	data() {
 		return {
-			local_purchase: 1,
+			local_purchase: false,
 			total_amount: 0,
+			item_id: null,
+			item: '',
 			location_id: null,
 			location: '',
 			inventory_id: null,
@@ -194,10 +212,12 @@ export default {
 			details: [],
 			editMode: false,
 			selectedRecord: null,
+			purchaseStatus: '',
 		};
 	},
 	computed: {
 		...mapGetters({
+			items: 'items/items',
 			locations: 'location/activeLocations',
 			inventories: 'invt/inventories',
 			fetchingInvt: 'invt/loading',
@@ -208,16 +228,19 @@ export default {
 		}),
 		similarItemSelected() {
 			const index = this.details.findIndex(
-				detail => detail.inventory_id === this.inventory_id
+				detail =>
+					detail.location_id === this.location_id &&
+					detail.item_id === this.item_id
 			);
-			return this.inventory_id && !this.editMode && index > -1 ? true : false;
+			return this.item_id && !this.editMode && index > -1 ? true : false;
 		},
 	},
 	methods: {
 		...mapActions({
+			fetchAllItems: 'items/fetchAllItems',
 			fetchActiveLocations: 'location/fetchActiveLocations',
 			getItemsList: 'invt/fetchLocationBasedInventory',
-			addNewPurchase: 'purchase/addNewPurchase',
+			updatePurchaseDetails: 'purchase/updatePurchaseDetails',
 			getPurchaseDetails: 'purchase/getPurchaseDetails',
 			removeItem: 'purchase/removedPurchasedItemRecord',
 		}),
@@ -235,6 +258,13 @@ export default {
 			this.location = selectedLocation ? selectedLocation.name : '';
 			this.getItemsList(locationId);
 		},
+		onItemChangeHandler(e) {
+			const itemId = e.target.value;
+			const selectedItem = this.items.find(
+				item => item.id === parseInt(itemId)
+			);
+			this.item = selectedItem ? selectedItem.name : '';
+		},
 		submitForm() {
 			this.editMode = false;
 			const amount = this.price * this.quantity;
@@ -244,7 +274,7 @@ export default {
 			this.inventory = selectedItem ? selectedItem.item_name : '';
 
 			const index = this.details.findIndex(
-				i => i.inventory_id === this.inventory_id
+				i => i.location_id === this.location_id && i.item_id === this.item_id
 			);
 
 			if (index > -1) {
@@ -253,10 +283,13 @@ export default {
 				this.details[index].total_price = this.price * this.quantity;
 			} else {
 				this.details.push({
+					id: null,
 					location_id: this.location_id,
 					location: this.location,
 					inventory_id: this.inventory_id,
 					inventory: this.inventory,
+					item_id: this.item_id,
+					item: this.item,
 					price: this.price,
 					quantity: this.quantity,
 					total_price: amount,
@@ -264,60 +297,84 @@ export default {
 			}
 
 			this.total_amount = this.details
-				.map(d => d.total_price)
+				.map(d => parseFloat(d.total_price))
 				.reduce((prev, next) => prev + next);
+
 			this.resetForm();
 		},
 		updateValues() {
-			const { local_purchase, total_amount, details } = this.selectedPurchase;
+			const { local_purchase, total_amount, details, status } =
+				this.selectedPurchase;
 
-			this.local_purchase = local_purchase;
+			this.local_purchase = local_purchase === 'Yes' ? true : false;
 			this.total_amount = total_amount;
 			this.details = details;
+			this.purchaseStatus = status;
 		},
 		resetForm() {
 			this.location = '';
 			this.location_id = null;
 			this.inventory = '';
 			this.inventory_id = null;
+			this.item = '';
+			this.item_id = null;
 			this.price = '';
 			this.quantity = '';
-		},
-		recordAlreadyExists(id) {
-			const index = this.details.findIndex(i => i.inventory_id === id);
-			return index > -1 ? true : false; // returns -1 if record not found
 		},
 		removeRecord(index) {
 			const id = this.details[index].id;
 
-			this.$swal
-				.fire({
-					title: 'Are you sure to remove this record?',
-					text: "You won't be able to revert this!",
-					icon: 'warning',
-					showCancelButton: true,
-					confirmButtonColor: '#3085d6',
-					cancelButtonColor: '#d33',
-					confirmButtonText: 'Yes, remove it!',
-				})
-				.then(result => {
-					if (result.value) {
-						this.removeItem(id).then(() => {
-							this.$swal.fire(
-								'Done!',
-								'Purchased item has been removed',
-								'success'
-							);
+			if (id) {
+				this.$swal
+					.fire({
+						title: 'Are you sure to remove this record?',
+						text: "You won't be able to revert this!",
+						icon: 'warning',
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: 'Yes, remove it!',
+					})
+					.then(result => {
+						if (result.value) {
+							this.removeItem(id).then(() => {
+								this.$swal.fire(
+									'Done!',
+									'Purchased item has been removed',
+									'success'
+								);
+								this.resetTotalAmount();
+							});
+						}
+					});
+			} else {
+				this.$swal
+					.fire({
+						title: 'Are you sure to remove this?',
+						text: "You won't be able to revert this!",
+						icon: 'warning',
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: 'Yes, remove it!',
+					})
+					.then(result => {
+						if (result.value) {
+							this.total_amount =
+								this.total_amount - this.details[index].total_price;
+							this.details.splice(index, 1);
 							this.resetTotalAmount();
-						});
-					}
-				});
+							this.$swal.fire('Done!', 'Record has been removed', 'success');
+						}
+					});
+			}
 		},
 		editRecord(index) {
 			this.editMode = true;
 			this.selectedRecord = this.details[index];
 			this.location_id = this.selectedRecord.location_id;
-			this.inventory_id = this.selectedRecord.inventory_id;
+			// this.inventory_id = this.selectedRecord.inventory_id;
+			this.item_id = this.selectedRecord.item_id;
 			this.price = this.selectedRecord.price;
 			this.quantity = this.selectedRecord.quantity;
 		},
@@ -325,7 +382,7 @@ export default {
 			const details = this.selectedPurchase.details;
 			if (details.length) {
 				this.total_amount = details
-					.map(d => d.total_price)
+					.map(d => parseFloat(d.total_price))
 					.reduce((prev, next) => prev + next);
 			} else {
 				this.total_amount = 0;
@@ -339,7 +396,10 @@ export default {
 					details: this.details,
 				};
 
-				this.addNewPurchase(data);
+				this.updatePurchaseDetails({
+					...data,
+					id: this.$route.params.id,
+				});
 			}
 		},
 	},
@@ -363,5 +423,10 @@ export default {
 .grid-item {
 	text-align: left;
 	padding: 20px 0;
+}
+
+.big-checkbox {
+	width: 30px;
+	height: 30px;
 }
 </style>

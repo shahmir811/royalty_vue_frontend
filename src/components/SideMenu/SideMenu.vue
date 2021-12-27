@@ -21,6 +21,10 @@
 			><i class="fa fa-location-arrow mr-2" aria-hidden="true"></i> Locations
 			Management</router-link
 		>
+		<router-link to="/items" class="side-menu-links"
+			><i class="fa fa-tasks mr-2" aria-hidden="true"></i> Items
+			Management</router-link
+		>
 		<router-link to="/inventory" class="side-menu-links"
 			><i class="fa fa-file-text-o mr-2" aria-hidden="true"></i> Inventory
 			Management</router-link

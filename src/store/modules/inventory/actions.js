@@ -69,8 +69,20 @@ export const addNewInventoryItem = async ({ commit, dispatch }, data) => {
 		router.push('/inventory');
 	} catch (error) {
 		console.log(error);
+		const status = error.response.status;
+		if (status === 422) {
+			dispatch(
+				'flashMessage',
+				{
+					message:
+						'Item is already there in mentioned location inventory. Duplicate items are not allowed',
+					type: 'danger',
+				},
+				{ root: true }
+			);
+		}
 		commit('setError', error.response.data.errors);
-		checkAndRedirect(error.response.status, dispatch);
+		checkAndRedirect(status, dispatch);
 		commit('setLoading', false);
 	}
 };

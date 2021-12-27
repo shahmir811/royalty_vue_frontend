@@ -48,7 +48,11 @@
 					@cell-prepared="onCellPrepared"
 				>
 					<DxColumn data-field="name" :fixed="true" sort-order="asc" />
-					<DxColumn data-field="contact_no" caption="Contact" />
+					<DxColumn
+						data-field="contact_no"
+						caption="Contact"
+						alignment="center"
+					/>
 					<DxColumn data-field="status" alignment="center" />
 
 					<DxSelection mode="single" />

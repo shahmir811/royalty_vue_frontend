@@ -35,9 +35,11 @@
 					@selection-changed="selectInventory"
 					:showBorders="true"
 					:show-row-lines="true"
+					:word-wrap-enabled="true"
 					@row-prepared="onRowPrepared"
 				>
 					<DxColumn data-field="item_name" :fixed="true" sort-order="asc" />
+					<DxColumn data-field="location" alignment="left" />
 					<DxColumn data-field="quantity" alignment="center" />
 					<DxColumn
 						data-field="avg_price"
@@ -46,9 +48,6 @@
 					/>
 					<DxColumn data-field="purchase_price" alignment="center" />
 					<DxColumn data-field="sale_price" alignment="center" />
-					<DxColumn data-field="location" />
-					<DxColumn data-field="status" alignment="center" />
-					<DxColumn data-field="package" caption="Package" alignment="center" />
 
 					<DxSelection mode="single" />
 					<DxFilterRow :visible="true" />
