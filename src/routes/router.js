@@ -18,9 +18,10 @@ import AddInventory from '../pages/Auth/Inventory/AddInventory.vue';
 import ShowInventory from '../pages/Auth/Inventory/ShowInventory.vue';
 import UpdateInventory from '../pages/Auth/Inventory/UpdateInventory.vue';
 import Sales from '../pages/Auth/Sales/Sales.vue';
+import AddSale from '../pages/Auth/Sales/AddSale.vue';
+import SaleDetails from '../pages/Auth/Sales/SaleDetails.vue';
 import Purchase from '../pages/Auth/Purchase/Purchase.vue';
 import AddPurchase from '../pages/Auth/Purchase/AddPurchase.vue';
-import ShowPurchase from '../pages/Auth/Purchase/ShowPurchase.vue';
 import PurchaseDetails from '../pages/Auth/Purchase/Details.vue';
 import SalesQuotation from '../pages/Auth/SalesQuotation/SalesQuotation.vue';
 import Customers from '../pages/Auth/Customers/Customers.vue';
@@ -147,6 +148,18 @@ const router = new Router({
 			meta: { guest: false, needsAuth: true },
 		},
 		{
+			path: '/add-sale',
+			component: AddSale,
+			name: 'add-sale',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/sale-details/:id',
+			component: SaleDetails,
+			name: 'sale-details',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
 			path: '/sales-quotation',
 			component: SalesQuotation,
 			name: 'sales-quotation',
@@ -180,12 +193,6 @@ const router = new Router({
 			path: '/add-purchase',
 			component: AddPurchase,
 			name: 'add-purchase',
-			meta: { guest: false, needsAuth: true },
-		},
-		{
-			path: '/show-purchase/:id',
-			component: ShowPurchase,
-			name: 'show-purchase',
 			meta: { guest: false, needsAuth: true },
 		},
 		{

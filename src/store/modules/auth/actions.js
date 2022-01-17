@@ -120,6 +120,7 @@ export const clearAuth = ({ commit }) => {
 	commit('setToken', null);
 	commit('setUserRoleInLocalStorage', null);
 	setHttpToken(null);
+	router.push('/login');
 };
 
 /////////////////////// Attempt function execute at first //////////////////

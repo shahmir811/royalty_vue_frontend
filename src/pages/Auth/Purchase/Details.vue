@@ -296,20 +296,23 @@ export default {
 				});
 			}
 
-			this.total_amount = this.details
-				.map(d => parseFloat(d.total_price))
-				.reduce((prev, next) => prev + next);
+			// this.total_amount = this.details
+			// 	.map(d => parseFloat(d.total_price))
+			// 	.reduce((prev, next) => prev + next);
+			this.calculateTotalAmount();
 
 			this.resetForm();
 		},
 		updateValues() {
-			const { local_purchase, total_amount, details, status } =
-				this.selectedPurchase;
+			const { local_purchase, details, status } = this.selectedPurchase;
+
+			// console.log('Total Amount: ' + total_amount);
 
 			this.local_purchase = local_purchase === 'Yes' ? true : false;
-			this.total_amount = total_amount;
+			// this.total_amount = parseFloat(total_amount);
 			this.details = details;
 			this.purchaseStatus = status;
+			this.calculateTotalAmount();
 		},
 		resetForm() {
 			this.location = '';
@@ -377,6 +380,11 @@ export default {
 			this.item_id = this.selectedRecord.item_id;
 			this.price = this.selectedRecord.price;
 			this.quantity = this.selectedRecord.quantity;
+		},
+		calculateTotalAmount() {
+			this.total_amount = this.details
+				.map(d => parseFloat(d.total_price))
+				.reduce((prev, next) => prev + next);
 		},
 		resetTotalAmount() {
 			const details = this.selectedPurchase.details;
