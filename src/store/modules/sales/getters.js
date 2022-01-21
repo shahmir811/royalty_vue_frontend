@@ -13,3 +13,5 @@ export const statuses = state => state.statuses;
 export const latestInvoiceNo = state => state.latestInvoiceNo;
 
 export const fetchInvoiceNo = state => state.fetchInvoiceNo;
+
+export const savingOnServer = state => state.savingOnServer;

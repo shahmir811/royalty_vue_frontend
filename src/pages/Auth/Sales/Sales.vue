@@ -36,6 +36,7 @@
 					:showBorders="true"
 					:show-row-lines="true"
 					:word-wrap-enabled="true"
+					@cell-prepared="onCellPrepared"
 				>
 					<DxColumn
 						data-field="sale_invoice_no"
@@ -70,6 +71,12 @@
 					/>
 					<DxColumn data-field="created_at" caption="Date" alignment="center" />
 					<DxColumn data-field="status" caption="Status" alignment="center" />
+					<DxColumn
+						v-if="role === 'admin'"
+						data-field="margin"
+						caption="Profit (%)"
+						alignment="center"
+					/>
 
 					<DxSelection mode="single" />
 					<DxFilterRow :visible="true" />
@@ -125,6 +132,7 @@ export default {
 			sales: 'sales/sales',
 			pageLoad: 'sales/pageLoad',
 			errors: 'sales/errors',
+			role: 'auth/role',
 		}),
 	},
 	methods: {
@@ -137,6 +145,15 @@ export default {
 					this.selectedSale = sale;
 				}
 			});
+		},
+		onCellPrepared(e) {
+			if (e.rowType == 'data' && e.column.dataField == 'margin') {
+				if (e.data.margin > 0) {
+					e.cellElement.className += ' greenText';
+				} else {
+					e.cellElement.className += ' redText';
+				}
+			}
 		},
 	},
 };

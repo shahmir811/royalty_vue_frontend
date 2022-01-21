@@ -125,10 +125,10 @@ export const getAllSalesStatusFromServer = async ({ commit, dispatch }) => {
 };
 
 /////////////////////// Get Latest Invoice Number ///////////////////////
-export const getLatestInvoiceNumberFromServer = async ({ commit }) => {
+export const getInvoiceNumberFromServer = async ({ commit }, id) => {
 	commit('setFetchInvoiceNumber', true);
 
-	const url = (await getURL()) + 'get-latest-sale-invoice';
+	const url = (await getURL()) + 'get-sale-invoice/' + id;
 
 	return new Promise((resolve, reject) => {
 		axios
@@ -141,6 +141,77 @@ export const getLatestInvoiceNumberFromServer = async ({ commit }) => {
 			.catch(error => {
 				console.log(error);
 				commit('setFetchInvoiceNumber', false);
+				reject();
+			});
+	});
+};
+
+/////////////////////// Update Sale Detail Item ///////////////////////
+export const updateSaleDetailItemOnServer = async ({ commit }, data) => {
+	commit('setSavingOnServer', true);
+	commit('clearErrors');
+
+	const url = (await getURL()) + 'update-sale-detail-item-data/' + data.id;
+
+	return new Promise((resolve, reject) => {
+		axios
+			.post(url, data)
+			.then(response => {
+				commit('updateSaleDetailItem', response.data.data.detail);
+				commit('setSavingOnServer', false);
+				resolve();
+			})
+			.catch(error => {
+				console.log(error);
+				commit('setSavingOnServer', false);
+				reject();
+			});
+	});
+};
+
+/////////////////////// Add New Sale Detail Item ///////////////////////
+
+export const addNewSaleDetailItemOnServer = async ({ commit }, data) => {
+	commit('setSavingOnServer', true);
+	commit('clearErrors');
+
+	const url = (await getURL()) + 'add-sale-detail-item-data';
+
+	return new Promise((resolve, reject) => {
+		axios
+			.post(url, data)
+			.then(response => {
+				commit('addNewSaleDetailItem', response.data.data.detail);
+				commit('setSavingOnServer', false);
+				resolve();
+			})
+			.catch(error => {
+				console.log(error);
+				commit('setSavingOnServer', false);
+				reject();
+			});
+	});
+};
+
+/////////////////////// Remove Sale Detail Item ///////////////////////
+
+export const removeSaleDetailItemOnServer = async ({ commit }, id) => {
+	commit('setSavingOnServer', true);
+	commit('clearErrors');
+
+	const url = (await getURL()) + 'remove-sale-detail-item/' + id;
+
+	return new Promise((resolve, reject) => {
+		axios
+			.get(url)
+			.then(() => {
+				commit('removeSaleDetailItem', id);
+				commit('setSavingOnServer', false);
+				resolve();
+			})
+			.catch(error => {
+				console.log(error);
+				commit('setSavingOnServer', false);
 				reject();
 			});
 	});

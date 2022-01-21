@@ -551,15 +551,17 @@ export default {
 			}
 		},
 		calcTotalSalePriceAndTax() {
-			this.total_sale_price = this.form.details
-				.map(d => d.total_price)
-				.reduce((prev, next) => prev + next);
+			if (this.form.details.length) {
+				this.total_sale_price = this.form.details
+					.map(d => d.total_price)
+					.reduce((prev, next) => prev + next);
 
-			this.total_avg_price = this.form.details
-				.map(d => d.total_item_avg_price)
-				.reduce((prev, next) => prev + next);
+				this.total_avg_price = this.form.details
+					.map(d => d.total_item_avg_price)
+					.reduce((prev, next) => prev + next);
 
-			this.total_tax = (this.total_sale_price * this.form.tax) / 100;
+				this.total_tax = (this.total_sale_price * this.form.tax) / 100;
+			}
 		},
 	},
 };

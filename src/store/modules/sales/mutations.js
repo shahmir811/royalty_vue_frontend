@@ -12,6 +12,9 @@ export const setError = (state, payload) => (state.errors = payload);
 
 export const setLoading = (state, trueOrFalse) => (state.loading = trueOrFalse);
 
+export const setSavingOnServer = (state, trueOrFalse) =>
+	(state.savingOnServer = trueOrFalse);
+
 export const setSelectedSale = (state, payload) =>
 	(state.selectedSale = payload);
 
@@ -27,3 +30,29 @@ export const setLatestInvoiceNo = (state, invoiceNo) =>
 
 export const setFetchInvoiceNumber = (state, trueOrFalse) =>
 	(state.fetchInvoiceNo = trueOrFalse);
+
+export const updateSaleDetailItem = (state, data) => {
+	const index = state.selectedSale.details.findIndex(
+		record => record.id === data.id
+	);
+
+	if (index > -1) {
+		state.selectedSale.details[index] = { ...data };
+	}
+};
+
+export const addNewSaleDetailItem = (state, data) => {
+	state.selectedSale.details.push(data);
+};
+
+export const removeSaleDetailItem = (state, id) => {
+	if (state.selectedSale) {
+		const index = state.selectedSale.details.findIndex(
+			detail => detail.id === id
+		);
+
+		if (index > -1) {
+			state.selectedSale.details.splice(index, 1);
+		}
+	}
+};

@@ -19,7 +19,7 @@
 				<td>{{ record.sale_price }}</td>
 				<td>{{ record.quantity }}</td>
 				<td>{{ record.total_price }}</td>
-				<td>
+				<td v-if="!disableEdit">
 					<button
 						class="btn btn sm btm-danger"
 						@click.prevent="edit(index - 1)"
@@ -41,7 +41,7 @@
 <script>
 export default {
 	name: 'SalesTableComponent',
-	props: ['records'],
+	props: ['records', 'disableEdit'],
 	methods: {
 		remove(index) {
 			this.$emit('itemToDelete', index);

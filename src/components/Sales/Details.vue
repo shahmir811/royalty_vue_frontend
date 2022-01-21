@@ -47,7 +47,11 @@
 			</div>
 
 			<div class="grid-item">
-				<button class="btn btn-secondary mr-2" @click.prevent="changeMode">
+				<button
+					class="btn btn-secondary mr-2"
+					@click.prevent="changeMode"
+					v-if="!disableEdit"
+				>
 					<i class="fa fa-pencil" aria-hidden="true"></i> Edit
 				</button>
 				<button class="btn btn-danger" @click.prevent="goToSalesPage">
@@ -61,7 +65,7 @@
 <script>
 export default {
 	name: 'SaleDetail',
-	props: ['data'],
+	props: ['data', 'disableEdit'],
 	methods: {
 		changeMode() {
 			this.$emit('changeToEditMode', true);

@@ -7,6 +7,7 @@ const PurchaseState = {
 	statuses: [],
 	latestInvoiceNo: null,
 	fetchInvoiceNo: false,
+	savingOnServer: false,
 };
 
 export default PurchaseState;
