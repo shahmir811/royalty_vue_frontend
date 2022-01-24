@@ -217,6 +217,26 @@ export const removeSaleDetailItemOnServer = async ({ commit }, id) => {
 	});
 };
 
+/////////////////////// print Sale Details on server ///////////////////////
+export const printSaleDetailsOnServer = async ({ commit }, id) => {
+	commit('clearErrors');
+
+	const url = (await getURL()) + 'print-sale-details/' + id;
+
+	axios
+		.get(url, { responseType: 'arraybuffer' })
+		.then(response => {
+			let blob = new Blob([response.data], { type: 'application/pdf' });
+			let link = document.createElement('a');
+			link.href = window.URL.createObjectURL(blob);
+			link.download = 'sale_details.pdf';
+			link.click();
+		})
+		.catch(error => {
+			console.log(error);
+		});
+};
+
 /////////////////////// clear Auth State and redirect ///////////////////////
 const checkAndRedirect = (status, dispatch) => {
 	if (status === 401) {

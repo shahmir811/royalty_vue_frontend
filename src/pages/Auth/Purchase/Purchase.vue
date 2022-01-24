@@ -44,6 +44,12 @@
 				>
 					<i class="fa fa-times" aria-hidden="true"></i> Remove
 				</b-button>
+				<b-button
+					v-if="selectedPurchase"
+					class="admin-users-component-change-status-button w-195 ml-2"
+					@click.prevent="printPurchaseDetails(selectedPurchase.id)"
+					><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Print</b-button
+				>
 			</b-row>
 
 			<b-row class="pr-20">
@@ -137,6 +143,7 @@ export default {
 			fetchPurchases: 'purchase/fetchPurchases',
 			remove: 'purchase/removePurchaseOrder',
 			changeStatus: 'purchase/changePurchaseStatusOnServer',
+			printPurchaseDetailsOnServer: 'purchase/printPurchaseDetailsOnServer',
 		}),
 		selectPurchase(e) {
 			e.component.byKey(e.currentSelectedRowKeys[0]).done(purchase => {
@@ -180,6 +187,10 @@ export default {
 						});
 					}
 				});
+		},
+		printPurchaseDetails(id) {
+			console.log('ID: ' + id);
+			this.printPurchaseDetailsOnServer(id);
 		},
 		onDeletePurchaseHandler(id) {
 			this.$swal

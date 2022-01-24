@@ -25,6 +25,12 @@
 						><i class="fa fa-bars" aria-hidden="true"></i> Details</b-button
 					>
 				</router-link>
+				<b-button
+					v-if="selectedSale"
+					class="admin-users-component-add-new-inventory-button w-195 ml-2"
+					@click.prevent="printSaleDetails(selectedSale.id)"
+					><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Print</b-button
+				>
 			</b-row>
 
 			<b-row class="pr-20">
@@ -138,7 +144,12 @@ export default {
 	methods: {
 		...mapActions({
 			fetchSalesList: 'sales/fetchSalesList',
+			printSaleDetailsOnServer: 'sales/printSaleDetailsOnServer',
 		}),
+		printSaleDetails(id) {
+			console.log('ID: ' + id);
+			this.printSaleDetailsOnServer(id);
+		},
 		selectSale(e) {
 			e.component.byKey(e.currentSelectedRowKeys[0]).done(sale => {
 				if (sale) {

@@ -174,6 +174,26 @@ export const removePurchaseOrder = async ({ commit, dispatch }, id) => {
 	}
 };
 
+/////////////////////// print Purchase Details on server ///////////////////////
+export const printPurchaseDetailsOnServer = async ({ commit }, id) => {
+	commit('clearErrors');
+
+	const url = (await getURL()) + 'print-purchase-details/' + id;
+
+	axios
+		.get(url, { responseType: 'arraybuffer' })
+		.then(response => {
+			let blob = new Blob([response.data], { type: 'application/pdf' });
+			let link = document.createElement('a');
+			link.href = window.URL.createObjectURL(blob);
+			link.download = 'purchase_details.pdf';
+			link.click();
+		})
+		.catch(error => {
+			console.log(error);
+		});
+};
+
 /////////////////////// clear Auth State and redirect ///////////////////////
 const checkAndRedirect = (status, dispatch) => {
 	if (status === 401) {
