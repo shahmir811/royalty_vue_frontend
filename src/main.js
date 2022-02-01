@@ -12,6 +12,7 @@ Vue.config.productionTip = false;
 import './styles/styles.scss';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import 'devextreme/dist/css/dx.light.css';
+import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
 
 localForage.config({
 	driver: localForage.LOCALSTORAGE,

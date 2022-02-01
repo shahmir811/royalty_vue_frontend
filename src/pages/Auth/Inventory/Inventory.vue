@@ -27,7 +27,7 @@
 				</router-link>
 			</b-row>
 
-			<b-row class="pr-20">
+			<b-row class="pr-20 pb-50">
 				<DxDataGrid
 					:data-source="inventories"
 					key-expr="id"

@@ -12,6 +12,7 @@ import auth from './modules/auth';
 import user from './modules/user';
 import location from './modules/location';
 import customer from './modules/customer';
+import charts from './modules/charts';
 import inventory from './modules/inventory';
 import tax from './modules/tax';
 import purchase from './modules/purchase';
@@ -28,6 +29,7 @@ export default new Vuex.Store({
 		user,
 		location,
 		customer,
+		charts,
 		tax,
 		purchase,
 		invt: inventory,

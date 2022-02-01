@@ -19,7 +19,7 @@
 				<td>{{ record.sale_price }}</td>
 				<td>{{ record.quantity }}</td>
 				<td>{{ record.total_price }}</td>
-				<td v-if="!disableEdit">
+				<td v-if="!disableEdit" class="w-105">
 					<button
 						class="btn btn sm btm-danger"
 						@click.prevent="edit(index - 1)"
@@ -55,4 +55,8 @@ export default {
 
 <style lang="scss">
 @import '../../styles/styles.scss';
+
+.w-105 {
+	width: 105px;
+}
 </style>
