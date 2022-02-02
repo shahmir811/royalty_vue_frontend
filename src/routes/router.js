@@ -5,6 +5,8 @@ import beforeEach from './beforeEach';
 Vue.use(Router);
 
 import Landing from '../pages/Landing/Landing.vue';
+import ForgotPasswordPage from '../pages/Register/ForgotPassword.vue';
+import PasswordResetPage from '../pages/Register/PasswordReset.vue';
 import Login from '../pages/Login/Login.vue';
 import NotFound from '../pages/Error/NotFound.vue';
 import Home from '../pages/Auth/Home/Home.vue';
@@ -49,6 +51,18 @@ const router = new Router({
 			path: '/login',
 			component: Login,
 			name: 'login',
+			meta: { guest: true, needsAuth: false },
+		},
+		{
+			path: '/forgot-password',
+			component: ForgotPasswordPage,
+			name: 'forgot-password',
+			meta: { guest: true, needsAuth: false },
+		},
+		{
+			path: '/password-reset',
+			component: PasswordResetPage,
+			name: 'password-reset',
 			meta: { guest: true, needsAuth: false },
 		},
 		{
