@@ -26,7 +26,7 @@ const getAllDatesSale = (comingRecords, days) => {
 			margin: 0,
 			// day: `${m.format('ddd')} (${m.format('D/MMM')})`,
 			day: `${m.format('D')}`,
-			date_at: m.format('Y-MM-D'),
+			date_at: m.format('Y-MM-DD'),
 		};
 
 		records.push(data);
@@ -34,10 +34,9 @@ const getAllDatesSale = (comingRecords, days) => {
 
 	comingRecords.map(data => {
 		const date_at = data.date_at;
-
 		const index = records.findIndex(r => r.date_at === date_at);
 		if (index > -1) {
-			records[index].margin = data.margin;
+			records[index].margin += data.margin;
 		}
 	});
 
@@ -67,7 +66,7 @@ const getSalesBetweenDates = data => {
 			margin: 0,
 			// day: `${m.format('ddd')} (${m.format('D/MMM')})`,
 			day: `${m.format('D')}`,
-			date_at: m.format('Y-MM-D'),
+			date_at: m.format('Y-MM-DD'),
 		};
 
 		records.push(data);
@@ -78,7 +77,7 @@ const getSalesBetweenDates = data => {
 
 		const index = records.findIndex(r => r.date_at === date_at);
 		if (index > -1) {
-			records[index].margin = data.margin;
+			records[index].margin += data.margin;
 		}
 	});
 

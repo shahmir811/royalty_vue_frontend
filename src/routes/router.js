@@ -31,6 +31,10 @@ import AddCustomer from '../pages/Auth/Customers/AddCustomer.vue';
 import ShowCustomer from '../pages/Auth/Customers/ShowCustomer.vue';
 import UpdateCustomer from '../pages/Auth/Customers/UpdateCustomer.vue';
 import CustomerCredit from '../pages/Auth/CustomerCredit/CustomerCredit.vue';
+import AddCustomerCredit from '../pages/Auth/CustomerCredit/AddCustomerCredit.vue';
+import ViewCreditDetails from '../pages/Auth/CustomerCredit/ViewCreditDetails.vue';
+import PaymentDetails from '../pages/Auth/CustomerCredit/PaymentDetails.vue';
+
 import Locations from '../pages/Auth/Locations/Locations.vue';
 import AddLocation from '../pages/Auth/Locations/AddLocation.vue';
 import UpdateLocation from '../pages/Auth/Locations/UpdateLocation.vue';
@@ -117,6 +121,24 @@ const router = new Router({
 			path: '/customer-credit',
 			component: CustomerCredit,
 			name: 'customer-credit',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/add-customer-credit',
+			component: AddCustomerCredit,
+			name: 'add-customer-credit',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/view-credit-details/:customerId',
+			component: ViewCreditDetails,
+			name: 'view-credit-details',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/credit-payment-details/:creditId',
+			component: PaymentDetails,
+			name: 'credit-payment-details',
 			meta: { guest: false, needsAuth: true },
 		},
 		{

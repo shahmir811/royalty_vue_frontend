@@ -37,10 +37,6 @@
 			><i class="fa fa-credit-card mr-2" aria-hidden="true"></i> Sales
 			Management</router-link
 		>
-		<router-link to="/sales-quotation" class="side-menu-links"
-			><i class="fa fa-address-card mr-2" aria-hidden="true"></i> Sales
-			Quotations</router-link
-		>
 	</div>
 </template>
 
