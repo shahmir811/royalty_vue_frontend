@@ -12,6 +12,7 @@ const CreditState = {
 	serverRequest: false,
 	total: null,
 	dueAmount: null,
+	customerSales: [],
 };
 
 export default CreditState;

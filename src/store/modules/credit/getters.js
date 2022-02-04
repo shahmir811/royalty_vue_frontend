@@ -23,3 +23,5 @@ export const serverRequest = state => state.serverRequest;
 export const total = state => state.total;
 
 export const dueAmount = state => state.dueAmount;
+
+export const customerSales = state => state.customerSales;

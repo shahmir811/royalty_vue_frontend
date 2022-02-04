@@ -48,3 +48,16 @@ export const setCustomersList = (state, customers) =>
 
 export const pushLatestPayment = (state, payload) =>
 	state.payments.unshift(payload);
+
+export const setCustomerSalesDropDownRecord = (state, payload) => {
+	state.customerSales = payload ? payload : null;
+};
+
+export const removeCreditRow = (state, creditId) => {
+	state.creditRecords = state.creditRecords.filter(
+		record => record.id !== creditId
+	);
+};
+
+export const addCreditRow = (state, payload) =>
+	state.creditRecords.unshift(payload);

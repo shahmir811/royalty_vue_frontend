@@ -30,6 +30,8 @@ export const fetchCustomerCreditsDetailsFromServer = async (
 ) => {
 	commit('setFetchingCreditDetails', true);
 	commit('clearCustomerRecord');
+	commit('setCustomerSalesDropDownRecord');
+
 	const url = (await getURL()) + 'customer-credit-details/' + customerId;
 
 	return new Promise((resolve, reject) => {
@@ -44,6 +46,7 @@ export const fetchCustomerCreditsDetailsFromServer = async (
 				});
 
 				commit('setCreditRecordsData', data.credits);
+				commit('setCustomerSalesDropDownRecord', data.sales);
 				resolve();
 				commit('setFetchingCreditDetails', false);
 			})
@@ -134,6 +137,68 @@ export const addPaymentToServer = async ({ commit, dispatch }, data) => {
 
 				commit('setDueAmount', due_amount);
 				commit('pushLatestPayment', data.payment);
+				resolve();
+				commit('setServerRequest', false);
+			})
+			.catch(error => {
+				console.log(error);
+				checkAndRedirect(error.response.status, dispatch);
+				reject();
+				commit('setError', error.response.data.errors);
+				commit('setServerRequest', false);
+			});
+	});
+};
+
+/////////////////////// remove credit record ///////////////////////
+
+export const removeCreditRecordFromServer = async (
+	{ commit, dispatch },
+	creditId
+) => {
+	const url = (await getURL()) + 'remove-customer-credit-record/' + creditId;
+
+	return new Promise((resolve, reject) => {
+		axios
+			.get(`${url}`)
+			.then(response => {
+				const { data } = response.data;
+
+				commit('setCustomerSalesDropDownRecord', data.sales);
+				commit('removeCreditRow', creditId);
+				resolve();
+			})
+			.catch(error => {
+				console.log(error);
+				checkAndRedirect(error.response.status, dispatch);
+				reject();
+			});
+	});
+};
+
+/////////////////////// add new customer credit record ///////////////////////
+
+export const addNewCustomerCreditRecordOnServer = async (
+	{ commit, dispatch },
+	data
+) => {
+	commit('clearErrors');
+	commit('setServerRequest', true);
+
+	const { customer_id } = data;
+
+	// console.log(rest);
+
+	const url = (await getURL()) + 'add-new-customer-credit/' + customer_id;
+
+	return new Promise((resolve, reject) => {
+		axios
+			.post(`${url}`, { ...data })
+			.then(response => {
+				const { data } = response.data;
+
+				commit('addCreditRow', data.credit);
+				commit('setCustomerSalesDropDownRecord', data.sales);
 				resolve();
 				commit('setServerRequest', false);
 			})

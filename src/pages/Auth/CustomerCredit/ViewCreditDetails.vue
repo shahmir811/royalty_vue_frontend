@@ -23,6 +23,95 @@
 					</b-button>
 				</router-link>
 			</b-row>
+			<div class="jumbotron style-jumbotron">
+				<h3 class="text-center">New Credit Record</h3>
+
+				<b-form @submit.prevent="submitForm">
+					<div class="grid-container">
+						<div class="grid-item">
+							<label for="selectSale" class="style-label">Select Sale</label>
+							<select
+								class="form-control"
+								id="selectSale"
+								v-model="form.selectedSale"
+								:class="{ 'is-invalid': errors.sale_id }"
+							>
+								<option value="" selected disabled>Select Sales Invoice</option>
+								<option
+									v-for="sale in salesRecord"
+									:key="sale.id"
+									:value="sale.id"
+								>
+									{{ sale.sale_invoice_no }}
+								</option>
+							</select>
+						</div>
+						<div class="grid-item">
+							<b-form-group
+								id="input-group-1"
+								label="Total Amount:"
+								label-for="input-1"
+								class="input-form-label"
+							>
+								<b-form-input
+									id="input-1"
+									type="number"
+									v-model="form.total"
+									placeholder="Enter total amount to be paid"
+									:class="{ 'is-invalid': errors.total }"
+									:disabled="!form.selectedSale || serverRequest"
+								></b-form-input>
+								<span class="invalid-feedback left-text" v-if="errors.total">
+									<strong>{{ errors.total[0] }}</strong>
+								</span>
+							</b-form-group>
+						</div>
+						<div class="grid-item">
+							<b-form-group
+								id="input-group-2"
+								label="Due Amount:"
+								label-for="input-2"
+								class="input-form-label"
+							>
+								<b-form-input
+									id="input-2"
+									type="number"
+									v-model="form.dueAmount"
+									placeholder="Due amount"
+									:class="{ 'is-invalid': errors.dueAmount }"
+									:disabled="!form.total || serverRequest"
+								></b-form-input>
+								<span
+									class="invalid-feedback left-text"
+									v-if="errors.dueAmount"
+								>
+									<strong>{{ errors.dueAmount[0] }}</strong>
+								</span>
+								<span class="errorText" v-if="greaterAmount">
+									Due amount must be less than or equal to total amount.
+								</span>
+							</b-form-group>
+						</div>
+						<div class="grid-item">
+							<b-button
+								type="submit"
+								variant="success"
+								class="admin-add-user-add-button"
+								:disabled="serverRequest || greaterAmount || !form.dueAmount"
+							>
+								<template v-if="serverRequest"
+									><b-spinner small label="Small Spinner"></b-spinner
+								></template>
+								<template v-else
+									><i class="fa fa-floppy-o" aria-hidden="true"></i>
+									Submit</template
+								>
+							</b-button>
+						</div>
+					</div>
+				</b-form>
+			</div>
+			<b-row> </b-row>
 
 			<div class="row little-adjust">
 				<table class="table table-striped table-hover table-bordered">
@@ -53,6 +142,12 @@
 									><i class="fa fa-eye" aria-hidden="true"></i>
 									Payments</router-link
 								>
+								<a
+									v-if="role === 'admin'"
+									class="btn btn-sm btn-link style-remove-link"
+									@click.prevent="remove(credit.id)"
+									><i class="fa fa-trash" aria-hidden="true"></i> Remove</a
+								>
 							</td>
 						</tr>
 					</tbody>
@@ -78,26 +173,86 @@ export default {
 
 		this.fetchRecords(this.customerId).then(() => {
 			this.credits = this.creditRecords;
+			this.salesRecord = this.customerSales;
 		});
 	},
 	components: { Spinner },
 	computed: {
 		...mapGetters({
+			role: 'auth/role',
 			fetchingCreditDetails: 'credit/fetchingCreditDetails',
 			selectedCustomerName: 'credit/selectedCustomerName',
 			creditRecords: 'credit/creditRecords',
+			errors: 'credit/errors',
+			serverRequest: 'credit/serverRequest',
+			customerSales: 'credit/customerSales',
 		}),
+		greaterAmount() {
+			const condition =
+				this.form.dueAmount &&
+				parseFloat(this.form.dueAmount) > parseFloat(this.form.total);
+			return condition ? true : false;
+		},
 	},
 	data() {
 		return {
 			credits: [],
 			customerId: null,
+			salesRecord: [],
+			form: {
+				total: null,
+				dueAmount: null,
+				selectedSale: '',
+			},
 		};
 	},
 	methods: {
 		...mapActions({
 			fetchRecords: 'credit/fetchCustomerCreditsDetailsFromServer',
+			removeRecord: 'credit/removeCreditRecordFromServer',
+			addRecord: 'credit/addNewCustomerCreditRecordOnServer',
 		}),
+		remove(id) {
+			this.$swal
+				.fire({
+					title: 'Are you sure to remove this record?',
+					text: "You won't be able to revert this!",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Yes, remove it!',
+				})
+				.then(result => {
+					if (result.value) {
+						this.removeRecord(id).then(() => {
+							this.credits = this.creditRecords;
+							this.salesRecord = this.customerSales;
+							this.$swal.fire('Done!', 'Record has been removed.', 'success');
+						});
+					}
+				});
+		},
+		submitForm() {
+			const data = {
+				customer_id: this.customerId,
+				sale_id: this.form.selectedSale,
+				due_amount: this.form.dueAmount,
+				total_amount_paid: this.form.total,
+			};
+
+			this.addRecord(data).then(() => {
+				this.credits = this.creditRecords;
+				this.salesRecord = this.customerSales;
+
+				this.resetForm();
+			});
+		},
+		resetForm() {
+			this.form.total = null;
+			this.form.dueAmount = null;
+			this.form.selectedSale = '';
+		},
 	},
 };
 </script>
@@ -109,6 +264,12 @@ export default {
 	text-decoration: underline;
 }
 
+.style-jumbotron {
+	padding-bottom: 0px;
+	padding-top: 25px;
+	margin-top: 25px;
+}
+
 .little-adjust {
 	@extend .mt-30;
 	padding: 0 50px;
@@ -116,6 +277,25 @@ export default {
 
 .style-link {
 	text-decoration: underline;
+	font-weight: bold;
+}
+
+.style-remove-link {
+	text-decoration: underline;
+	color: red;
+}
+
+.style-label {
+	text-align: left;
+	color: #542600;
+	margin-bottom: 20px;
+	font-weight: bold;
+	font-size: 16px;
+	line-height: 24px;
+}
+
+.errorText {
+	color: red;
 	font-weight: bold;
 }
 </style>
