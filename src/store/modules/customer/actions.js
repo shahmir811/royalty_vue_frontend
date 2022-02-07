@@ -143,6 +143,30 @@ export const changeCustomerStatus = async (
 	});
 };
 
+/////////////////////// Show Customer Details ///////////////////////
+
+export const showCustomerDetails = async ({ commit, dispatch }, customerId) => {
+	commit('startPageLoad');
+
+	const url = (await getURL()) + 'show-customer/' + customerId;
+
+	return new Promise((resolve, reject) => {
+		axios
+			.get(`${url}`)
+			.then(response => {
+				commit('setCustomerDetails', response.data.data);
+				commit('endPageLoad');
+				resolve();
+			})
+			.catch(error => {
+				console.log(error);
+				commit('endPageLoad');
+				checkAndRedirect(error.response.status, dispatch);
+				reject();
+			});
+	});
+};
+
 /////////////////////// clear Auth State and redirect ///////////////////////
 const checkAndRedirect = (status, dispatch) => {
 	if (status === 401) {

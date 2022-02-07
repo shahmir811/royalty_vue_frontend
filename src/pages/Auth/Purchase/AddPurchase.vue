@@ -222,13 +222,8 @@ export default {
 			this.item = selectedItem ? selectedItem.name : '';
 		},
 		submitForm() {
-			console.log('Submit Form');
 			this.editMode = false;
 			const amount = this.price * this.quantity;
-			// const selectedItem = this.inventories.find(
-			// 	item => item.id === this.inventory_id
-			// );
-			// this.inventory = selectedItem ? selectedItem.item_name : '';
 
 			const index = this.details.findIndex(
 				i => i.location_id === this.location_id && i.item_id === this.item_id

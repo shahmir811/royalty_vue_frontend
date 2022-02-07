@@ -1,6 +1,9 @@
 <template>
 	<div>
 		<h1 class="page-title">Purchase Details</h1>
+		<h5 class="subTitle">
+			{{ selectedPurchase ? selectedPurchase.purchase_invoice_no : '' }}
+		</h5>
 
 		<template v-if="pageLoad">
 			<Spinner />
@@ -436,5 +439,10 @@ export default {
 .big-checkbox {
 	width: 30px;
 	height: 30px;
+}
+
+.subTitle {
+	text-decoration: underline;
+	font-weight: bold;
 }
 </style>
