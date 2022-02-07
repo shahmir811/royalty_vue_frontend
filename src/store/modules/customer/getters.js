@@ -8,6 +8,8 @@ export const customers = state => state.customers;
 
 export const errors = state => state.errors;
 
+export const customerDetails = state => state.customerDetails;
+
 export const countries = state => {
 	return (state.countries = countriesData.map((country, index) => {
 		return {

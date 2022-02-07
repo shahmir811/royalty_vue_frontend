@@ -15,6 +15,9 @@ export const setLoading = (state, trueOrFalse) => (state.loading = trueOrFalse);
 export const setCustomersList = (state, customers) =>
 	(state.customers = customers);
 
+export const setCustomerDetails = (state, payload) =>
+	(state.customerDetails = payload);
+
 export const getCustomerToUpdate = (state, comingId) => {
 	const id = parseInt(comingId);
 	state.updateCustomer = state.customers.find(customer => customer.id === id);

@@ -5,6 +5,7 @@ const CustomerState = {
 	errors: [],
 	updateCustomer: null,
 	countries: [],
+	customerDetails: null,
 };
 
 export default CustomerState;

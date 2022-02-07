@@ -37,7 +37,11 @@
 				</b-button>
 
 				<b-button
-					v-if="selectedPurchase && selectedPurchase.status === 'Pending'"
+					v-if="
+						selectedPurchase &&
+						selectedPurchase.status === 'Pending' &&
+						role === 'admin'
+					"
 					href="#"
 					class="admin-users-component-change-status-button ml-2"
 					@click.prevent="onDeletePurchaseHandler(selectedPurchase.id)"
@@ -128,6 +132,7 @@ export default {
 	},
 	computed: {
 		...mapGetters({
+			role: 'auth/role',
 			purchases: 'purchase/purchases',
 			pageLoad: 'purchase/pageLoad',
 			errors: 'purchase/errors',
