@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div :class="{ bgImage: guestPage }">
 		<Navbar />
 		<Alert v-if="message" />
 		<b-container fluid>
@@ -34,6 +34,14 @@ export default {
 			message: 'message',
 			isAuthenticated: 'auth/isAuthenticated',
 		}),
+		guestPage() {
+			const condition =
+				this.$route.path === '/' ||
+				this.$route.path === '/login' ||
+				this.$route.path === '/forgot-password' ||
+				this.$route.path === '/password-reset';
+			return condition ? true : false;
+		},
 	},
 	mounted() {
 		if (this.isAuthenticated) {
@@ -45,6 +53,11 @@ export default {
 		Navbar,
 		SideMenu,
 	}, // components end here
+	data() {
+		return {
+			path: null,
+		};
+	},
 	methods: {
 		...mapActions({
 			fetchTaxDetails: 'tax/fetchTaxDetails',
@@ -55,4 +68,9 @@ export default {
 
 <style lang="scss">
 @import './styles/styles.scss';
+
+.bgImage {
+	background-image: url('~@/assets/bg-dubai.jpg');
+	height: 100vh;
+}
 </style>
