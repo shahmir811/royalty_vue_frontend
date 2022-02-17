@@ -1,0 +1,9 @@
+[
+	{
+		"name": "Royalty-test-frontend-aws",
+		"ip": "54.169.168.177",
+		"username": "ubuntu",
+		"port": "22",
+		"path": "/var/www/html"
+	}
+]
