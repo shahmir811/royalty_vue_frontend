@@ -10,11 +10,9 @@ export const clearErrors = state => (state.errors = []);
 
 export const setError = (state, payload) => (state.errors = payload);
 
-export const setLocationsList = (state, locations) =>
-	(state.locations = locations);
+export const setLocationsList = (state, locations) => (state.locations = locations);
 
-export const setActiveLocationsList = (state, locations) =>
-	(state.activeLocations = locations);
+export const setActiveLocationsList = (state, locations) => (state.activeLocations = locations);
 
 export const setLoading = (state, trueOrFalse) => (state.loading = trueOrFalse);
 
@@ -24,10 +22,5 @@ export const getLocationToUpdate = (state, comingId) => {
 };
 
 export const changeLocationStatus = (state, id) => {
-	const location = state.locations.find(location => location.id === id);
-	if (location.status === 'Active') {
-		location.status = 'Deactive';
-	} else {
-		location.status = 'Active';
-	}
+	state.locations = state.locations.filter(location => location.id !== id);
 };

@@ -32,7 +32,7 @@
 					class="admin-users-component-change-status-button ml-2"
 					@click.prevent="onDeleteHandler(selectedUser.id)"
 				>
-					<i class="fa fa-handshake-o" aria-hidden="true"></i> Change Status
+					<i class="fa fa-times" aria-hidden="true"></i> Remove
 				</b-button>
 			</b-row>
 
@@ -55,11 +55,7 @@
 					<DxFilterRow :visible="true" />
 					<DxSearchPanel :visible="true" />
 					<DxPaging :enabled="true" :page-size="25" />
-					<DxPager
-						:show-navigation-buttons="true"
-						:show-info="true"
-						info-text="Page #{0}. Total: {1} ({2} items)"
-					/>
+					<DxPager :show-navigation-buttons="true" :show-info="true" info-text="Page #{0}. Total: {1} ({2} items)" />
 				</DxDataGrid>
 			</b-row>
 		</template>
@@ -119,22 +115,18 @@ export default {
 		onDeleteHandler(userId) {
 			this.$swal
 				.fire({
-					title: 'Are you sure to change this user status?',
-					// text: "You won't be able to revert this!",
+					title: 'Are you sure to remove this user?',
+					text: "You won't be able to revert this!",
 					icon: 'warning',
 					showCancelButton: true,
 					confirmButtonColor: '#3085d6',
 					cancelButtonColor: '#d33',
-					confirmButtonText: 'Yes, change it!',
+					confirmButtonText: 'Yes, remove it!',
 				})
 				.then(result => {
 					if (result.value) {
 						this.changeUserStatus(userId).then(() => {
-							this.$swal.fire(
-								'Done!',
-								'User status has been changed.',
-								'success'
-							);
+							this.$swal.fire('Done!', 'User has been removed.', 'success');
 						});
 					}
 				});

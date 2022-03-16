@@ -10,8 +10,7 @@
 			<b-row>
 				<router-link to="/add-location">
 					<b-button class="admin-users-component-add-new-location-button"
-						><i class="fa fa-plus" aria-hidden="true"></i> Add
-						Location</b-button
+						><i class="fa fa-plus" aria-hidden="true"></i> Add Location</b-button
 					>
 				</router-link>
 				<router-link
@@ -21,8 +20,7 @@
 						params: { id: selectedLocation.id },
 					}"
 				>
-					<b-button
-						class="admin-users-component-add-new-inventory-button w-190 ml-2"
+					<b-button class="admin-users-component-add-new-inventory-button w-190 ml-2"
 						><i class="fa fa-pencil" aria-hidden="true"></i>
 						Update Location
 					</b-button>
@@ -33,7 +31,7 @@
 					class="admin-users-component-change-status-button ml-2"
 					@click.prevent="onDeleteHandler(selectedLocation.id)"
 				>
-					<i class="fa fa-handshake-o" aria-hidden="true"></i> Change Status
+					<i class="fa fa-times" aria-hidden="true"></i> Remove
 				</b-button>
 			</b-row>
 
@@ -48,22 +46,14 @@
 					@cell-prepared="onCellPrepared"
 				>
 					<DxColumn data-field="name" :fixed="true" sort-order="asc" />
-					<DxColumn
-						data-field="contact_no"
-						caption="Contact"
-						alignment="center"
-					/>
+					<DxColumn data-field="contact_no" caption="Contact" alignment="center" />
 					<DxColumn data-field="status" alignment="center" />
 
 					<DxSelection mode="single" />
 					<DxFilterRow :visible="true" />
 					<DxSearchPanel :visible="true" />
 					<DxPaging :enabled="true" :page-size="25" />
-					<DxPager
-						:show-navigation-buttons="true"
-						:show-info="true"
-						info-text="Page #{0}. Total: {1} ({2} items)"
-					/>
+					<DxPager :show-navigation-buttons="true" :show-info="true" info-text="Page #{0}. Total: {1} ({2} items)" />
 				</DxDataGrid>
 			</b-row>
 		</template>
@@ -120,22 +110,18 @@ export default {
 		onDeleteHandler(locationId) {
 			this.$swal
 				.fire({
-					title: 'Are you sure to change this location status?',
-					// text: "You won't be able to revert this!",
+					title: 'Are you sure to remove this location?',
+					text: "You won't be able to revert this!",
 					icon: 'warning',
 					showCancelButton: true,
 					confirmButtonColor: '#3085d6',
 					cancelButtonColor: '#d33',
-					confirmButtonText: 'Yes, change it!',
+					confirmButtonText: 'Yes, remove it!',
 				})
 				.then(result => {
 					if (result.value) {
 						this.changeLocationStatus(locationId).then(() => {
-							this.$swal.fire(
-								'Done!',
-								'Location status has been changed.',
-								'success'
-							);
+							this.$swal.fire('Done!', 'Location has been removed.', 'success');
 						});
 					}
 				});

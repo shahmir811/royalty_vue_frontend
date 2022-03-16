@@ -12,11 +12,9 @@ export const setError = (state, payload) => (state.errors = payload);
 
 export const setLoading = (state, trueOrFalse) => (state.loading = trueOrFalse);
 
-export const setCustomersList = (state, customers) =>
-	(state.customers = customers);
+export const setCustomersList = (state, customers) => (state.customers = customers);
 
-export const setCustomerDetails = (state, payload) =>
-	(state.customerDetails = payload);
+export const setCustomerDetails = (state, payload) => (state.customerDetails = payload);
 
 export const getCustomerToUpdate = (state, comingId) => {
 	const id = parseInt(comingId);
@@ -24,10 +22,5 @@ export const getCustomerToUpdate = (state, comingId) => {
 };
 
 export const changeCustomerStatus = (state, id) => {
-	const customer = state.customers.find(customer => customer.id === id);
-	if (customer.status === 'Active') {
-		customer.status = 'Deactive';
-	} else {
-		customer.status = 'Active';
-	}
+	state.customers = state.customers.filter(customer => customer.id !== id);
 };
