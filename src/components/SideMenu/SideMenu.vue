@@ -7,35 +7,29 @@
 			><i class="fa fa-money mr-2" aria-hidden="true"></i> Tax</router-link
 		>
 		<router-link to="/users" class="side-menu-links" v-if="role === 'admin'"
-			><i class="fa fa-users mr-2" aria-hidden="true"></i> Users
-			Management</router-link
+			><i class="fa fa-users mr-2" aria-hidden="true"></i> Users Management</router-link
 		>
 		<router-link to="/customers" class="side-menu-links"
-			><i class="fa fa-cogs mr-2" aria-hidden="true"></i> Customers
-			Management</router-link
+			><i class="fa fa-cogs mr-2" aria-hidden="true"></i> Customers Management</router-link
 		>
-		<router-link to="/customer-credit" class="side-menu-links"
-			>Customer Credit Management</router-link
-		>
+		<router-link to="/customer-credit" class="side-menu-links">Customer Credit Management</router-link>
 		<router-link to="/locations" class="side-menu-links"
-			><i class="fa fa-location-arrow mr-2" aria-hidden="true"></i> Locations
-			Management</router-link
+			><i class="fa fa-location-arrow mr-2" aria-hidden="true"></i> Locations Management</router-link
+		>
+		<router-link to="/categories" class="side-menu-links"
+			><i class="fa fa-list-alt mr-2" aria-hidden="true"></i> Categories Management</router-link
 		>
 		<router-link to="/items" class="side-menu-links"
-			><i class="fa fa-tasks mr-2" aria-hidden="true"></i> Items
-			Management</router-link
+			><i class="fa fa-tasks mr-2" aria-hidden="true"></i> Items Management</router-link
 		>
 		<router-link to="/inventory" class="side-menu-links"
-			><i class="fa fa-file-text-o mr-2" aria-hidden="true"></i> Inventory
-			Management</router-link
+			><i class="fa fa-file-text-o mr-2" aria-hidden="true"></i> Inventory Management</router-link
 		>
 		<router-link to="/purchase" class="side-menu-links"
-			><i class="fa fa-shopping-cart mr-2" aria-hidden="true"></i> Purchase
-			Management</router-link
+			><i class="fa fa-shopping-cart mr-2" aria-hidden="true"></i> Purchase Management</router-link
 		>
 		<router-link to="/sales" class="side-menu-links"
-			><i class="fa fa-credit-card mr-2" aria-hidden="true"></i> Sales
-			Management</router-link
+			><i class="fa fa-credit-card mr-2" aria-hidden="true"></i> Sales Management</router-link
 		>
 	</div>
 </template>

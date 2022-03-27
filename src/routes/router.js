@@ -34,6 +34,9 @@ import CustomerCredit from '../pages/Auth/CustomerCredit/CustomerCredit.vue';
 import AddCustomerCredit from '../pages/Auth/CustomerCredit/AddCustomerCredit.vue';
 import ViewCreditDetails from '../pages/Auth/CustomerCredit/ViewCreditDetails.vue';
 import PaymentDetails from '../pages/Auth/CustomerCredit/PaymentDetails.vue';
+import CategoriesList from '../pages/Auth/Category/CategoriesList.vue';
+import AddCategory from '../pages/Auth/Category/AddCategory.vue';
+import UpdateCategory from '../pages/Auth/Category/UpdateCategory.vue';
 
 import Locations from '../pages/Auth/Locations/Locations.vue';
 import AddLocation from '../pages/Auth/Locations/AddLocation.vue';
@@ -235,6 +238,24 @@ const router = new Router({
 			path: '/purchase-details/:id',
 			component: PurchaseDetails,
 			name: 'purchase-details',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/categories',
+			component: CategoriesList,
+			name: 'categories',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/add-category',
+			component: AddCategory,
+			name: 'add-category',
+			meta: { guest: false, needsAuth: true },
+		},
+		{
+			path: '/update-category/:id',
+			component: UpdateCategory,
+			name: 'update-category',
 			meta: { guest: false, needsAuth: true },
 		},
 		{

@@ -17,6 +17,7 @@ import charts from './modules/charts';
 import inventory from './modules/inventory';
 import tax from './modules/tax';
 import purchase from './modules/purchase';
+import category from './modules/category';
 import items from './modules/items';
 import sales from './modules/sales';
 
@@ -31,6 +32,7 @@ export default new Vuex.Store({
 		location,
 		credit,
 		customer,
+		category,
 		charts,
 		tax,
 		purchase,
