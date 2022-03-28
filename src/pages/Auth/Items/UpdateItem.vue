@@ -17,6 +17,24 @@
 						</span>
 					</b-form-group>
 
+					<div class="form-group input-form-label text-left">
+						<label for="changeCategory">Category:</label>
+						<select
+							class="form-control"
+							id="changeCategory"
+							v-model="form.category_id"
+							:class="{ 'is-invalid': errors.category_id }"
+						>
+							<option value="" selected disabled>Select Category</option>
+							<option v-for="cat in categories" :key="cat.id" :value="cat.id">
+								{{ cat.name }}
+							</option>
+						</select>
+						<span class="invalid-feedback left-text" v-if="errors.category_id">
+							<strong>{{ errors.category_id[0] }}</strong>
+						</span>
+					</div>
+
 					<b-form-group id="input-group-2" label="CBM:" label-for="input-2" class="input-form-label">
 						<b-form-input
 							id="input-2"
@@ -104,9 +122,11 @@ export default {
 			updateItem: 'items/updateItem',
 			errors: 'items/errors',
 			loading: 'items/loading',
+			categories: 'category/categories',
 		}),
 	},
 	mounted() {
+		this.fetchAllCategories();
 		if (this.items.length > 0) {
 			this.selectItemToUpdate(this.$route.params.id);
 			this.form = { ...this.updateItem };
@@ -130,6 +150,7 @@ export default {
 			updateItemDetails: 'items/updateItemDetails',
 			selectItemToUpdate: 'items/selectItemToUpdate',
 			fetchItemsFromUpdateItemPage: 'items/fetchItemsFromUpdateItemPage',
+			fetchAllCategories: 'category/fetchAllCategories',
 		}),
 		submitForm() {
 			this.updateItemDetails(this.form);

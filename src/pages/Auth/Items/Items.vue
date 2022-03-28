@@ -20,8 +20,7 @@
 						params: { id: selectedItem.id },
 					}"
 				>
-					<b-button
-						class="admin-users-component-add-new-inventory-button w-190 ml-2"
+					<b-button class="admin-users-component-add-new-inventory-button w-190 ml-2"
 						><i class="fa fa-pencil" aria-hidden="true"></i>
 						Update Item
 					</b-button>
@@ -38,31 +37,18 @@
 					:show-row-lines="true"
 					:word-wrap-enabled="true"
 				>
-					<DxColumn
-						data-field="name"
-						:fixed="true"
-						sort-order="asc"
-						:width="400"
-					/>
+					<DxColumn data-field="name" :fixed="true" sort-order="asc" :width="400" />
+					<DxColumn data-field="category" caption="Category" alignment="left" :width="300" />
 					<DxColumn data-field="package" caption="Package" alignment="center" />
 					<DxColumn data-field="cbm" caption="CBM" alignment="center" />
 					<DxColumn data-field="weight" caption="Weight" alignment="center" />
-					<DxColumn
-						data-field="description"
-						caption="Description"
-						:width="600"
-						:allow-row-resizing="true"
-					/>
+					<DxColumn data-field="description" caption="Description" :width="600" :allow-row-resizing="true" />
 
 					<DxSelection mode="single" />
 					<DxFilterRow :visible="true" />
 					<DxSearchPanel :visible="true" />
 					<DxPaging :enabled="true" :page-size="25" />
-					<DxPager
-						:show-navigation-buttons="true"
-						:show-info="true"
-						info-text="Page #{0}. Total: {1} ({2} items)"
-					/>
+					<DxPager :show-navigation-buttons="true" :show-info="true" info-text="Page #{0}. Total: {1} ({2} items)" />
 				</DxDataGrid>
 			</b-row>
 		</template>

@@ -17,6 +17,24 @@
 						</span>
 					</b-form-group>
 
+					<div class="form-group input-form-label text-left">
+						<label for="changeCategory">Category:</label>
+						<select
+							class="form-control"
+							id="changeCategory"
+							v-model="form.category_id"
+							:class="{ 'is-invalid': errors.category_id }"
+						>
+							<option value="" selected disabled>Select Category</option>
+							<option v-for="cat in categories" :key="cat.id" :value="cat.id">
+								{{ cat.name }}
+							</option>
+						</select>
+						<span class="invalid-feedback left-text" v-if="errors.category_id">
+							<strong>{{ errors.category_id[0] }}</strong>
+						</span>
+					</div>
+
 					<b-form-group id="input-group-2" label="CBM:" label-for="input-2" class="input-form-label">
 						<b-form-input
 							id="input-2"
@@ -92,12 +110,16 @@ export default {
 	name: 'AddItemPage',
 	mounted() {
 		this.clearValidationErrors();
+		if (this.isAuthenticated) {
+			this.fetchAllCategories();
+		}
 	},
 	computed: {
 		...mapGetters({
 			loading: 'items/loading',
 			errors: 'items/errors',
 			isAuthenticated: 'auth/isAuthenticated',
+			categories: 'category/categories',
 		}),
 	},
 	data() {
@@ -108,6 +130,7 @@ export default {
 				weight: '',
 				package: '',
 				description: '',
+				category_id: '',
 			},
 		};
 	},
@@ -115,6 +138,7 @@ export default {
 		...mapActions({
 			addNewItem: 'items/addNewItem',
 			clearValidationErrors: 'items/clearValidationErrors',
+			fetchAllCategories: 'category/fetchAllCategories',
 		}),
 		submitForm() {
 			this.addNewItem(this.form);
