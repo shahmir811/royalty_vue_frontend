@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="pb-50">
 		<template v-if="fetchingCreditDetails">
 			<Spinner />
 		</template>
@@ -16,10 +16,8 @@
 						name: 'customer-credit',
 					}"
 				>
-					<b-button
-						class="admin-users-component-add-new-inventory-button w-230 ml-2"
-						><i class="fa fa-arrow-left" aria-hidden="true"></i> Credit
-						Management
+					<b-button class="admin-users-component-add-new-inventory-button w-230 ml-2"
+						><i class="fa fa-arrow-left" aria-hidden="true"></i> Credit Management
 					</b-button>
 				</router-link>
 			</b-row>
@@ -37,22 +35,13 @@
 								:class="{ 'is-invalid': errors.sale_id }"
 							>
 								<option value="" selected disabled>Select Sales Invoice</option>
-								<option
-									v-for="sale in salesRecord"
-									:key="sale.id"
-									:value="sale.id"
-								>
+								<option v-for="sale in salesRecord" :key="sale.id" :value="sale.id">
 									{{ sale.sale_invoice_no }}
 								</option>
 							</select>
 						</div>
 						<div class="grid-item">
-							<b-form-group
-								id="input-group-1"
-								label="Total Amount:"
-								label-for="input-1"
-								class="input-form-label"
-							>
+							<b-form-group id="input-group-1" label="Total Amount:" label-for="input-1" class="input-form-label">
 								<b-form-input
 									id="input-1"
 									type="number"
@@ -67,12 +56,7 @@
 							</b-form-group>
 						</div>
 						<div class="grid-item">
-							<b-form-group
-								id="input-group-2"
-								label="Due Amount:"
-								label-for="input-2"
-								class="input-form-label"
-							>
+							<b-form-group id="input-group-2" label="Due Amount:" label-for="input-2" class="input-form-label">
 								<b-form-input
 									id="input-2"
 									type="number"
@@ -81,10 +65,7 @@
 									:class="{ 'is-invalid': errors.dueAmount }"
 									:disabled="!form.total || serverRequest"
 								></b-form-input>
-								<span
-									class="invalid-feedback left-text"
-									v-if="errors.dueAmount"
-								>
+								<span class="invalid-feedback left-text" v-if="errors.dueAmount">
 									<strong>{{ errors.dueAmount[0] }}</strong>
 								</span>
 								<span class="errorText" v-if="greaterAmount">
@@ -92,20 +73,28 @@
 								</span>
 							</b-form-group>
 						</div>
+
 						<div class="grid-item">
-							<b-button
-								type="submit"
-								variant="success"
-								class="admin-add-user-add-button"
-								:disabled="serverRequest || greaterAmount || !form.dueAmount"
-							>
-								<template v-if="serverRequest"
-									><b-spinner small label="Small Spinner"></b-spinner
-								></template>
-								<template v-else
-									><i class="fa fa-floppy-o" aria-hidden="true"></i>
-									Submit</template
-								>
+							<b-form-group id="input-group-7" label="Due Amount:" label-for="input-7" class="input-form-label">
+								<b-form-datepicker
+									v-model="form.dueDate"
+									class="mb-2"
+									:disabled="!form.dueAmount || serverRequest"
+								></b-form-datepicker>
+
+								<span class="invalid-feedback left-text" v-if="errors.dueDate">
+									<strong>{{ errors.dueDate[0] }}</strong>
+								</span>
+							</b-form-group>
+						</div>
+
+						<div class="grid-item"></div>
+						<div class="grid-item"></div>
+
+						<div class="grid-item">
+							<b-button type="submit" variant="success" class="admin-add-user-add-button" :disabled="disableButton">
+								<template v-if="serverRequest"><b-spinner small label="Small Spinner"></b-spinner></template>
+								<template v-else><i class="fa fa-floppy-o" aria-hidden="true"></i> Submit</template>
 							</b-button>
 						</div>
 					</div>
@@ -121,16 +110,18 @@
 							<th>Sale Invoice #</th>
 							<th>Sold On</th>
 							<th>Due Amount</th>
+							<th>Due Date</th>
 							<th>Total</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="(credit, index) in credits" :key="credit.id">
+						<tr v-for="(credit, index) in credits" :key="credit.id" :class="{ lessDueDate: colorRow(credit) }">
 							<td>{{ ++index }}</td>
 							<td>{{ credit.sale_invoice_no }}</td>
 							<td>{{ credit.sale_date }}</td>
 							<td>{{ credit.due_amount }}</td>
+							<td>{{ credit.due_date }}</td>
 							<td>{{ credit.total }}</td>
 							<td>
 								<router-link
@@ -139,8 +130,7 @@
 										params: { creditId: credit.id },
 									}"
 									class="btn btn-sm style-link"
-									><i class="fa fa-eye" aria-hidden="true"></i>
-									Payments</router-link
+									><i class="fa fa-eye" aria-hidden="true"></i> Payments</router-link
 								>
 								<a
 									v-if="role === 'admin'"
@@ -188,10 +178,11 @@ export default {
 			customerSales: 'credit/customerSales',
 		}),
 		greaterAmount() {
-			const condition =
-				this.form.dueAmount &&
-				parseFloat(this.form.dueAmount) > parseFloat(this.form.total);
+			const condition = this.form.dueAmount && parseFloat(this.form.dueAmount) > parseFloat(this.form.total);
 			return condition ? true : false;
+		},
+		disableButton() {
+			return this.serverRequest || this.greaterAmount || !this.form.dueAmount || !this.form.dueDate;
 		},
 	},
 	data() {
@@ -203,6 +194,7 @@ export default {
 				total: null,
 				dueAmount: null,
 				selectedSale: '',
+				dueDate: '',
 			},
 		};
 	},
@@ -238,6 +230,7 @@ export default {
 				customer_id: this.customerId,
 				sale_id: this.form.selectedSale,
 				due_amount: this.form.dueAmount,
+				due_date: this.form.dueDate,
 				total_amount_paid: this.form.total,
 			};
 
@@ -248,9 +241,14 @@ export default {
 				this.resetForm();
 			});
 		},
+		colorRow(data) {
+			const condition = data.days_diff < 7 && data.due_amount !== '0.00';
+			return condition;
+		},
 		resetForm() {
 			this.form.total = null;
 			this.form.dueAmount = null;
+			this.form.dueDate = '';
 			this.form.selectedSale = '';
 		},
 	},
