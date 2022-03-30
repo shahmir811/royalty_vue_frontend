@@ -8,48 +8,29 @@
 
 		<template v-else>
 			<template v-if="!editSaleForm">
-				<Detail
-					:data="saleForm"
-					@changeToEditMode="changeSaleEditMode"
-					:disableEdit="disableEdit"
-				/>
+				<Detail :data="saleForm" @changeToEditMode="changeSaleEditMode" :disableEdit="disableEdit" />
 			</template>
 
 			<template v-else>
 				<b-form @submit.prevent="submitSaleForm">
 					<div class="grid-container">
 						<div class="grid-item">
-							<b-form-group
-								id="input-group-1"
-								label="Sale Invoice No:"
-								label-for="input-1"
-								class="input-form-label"
-							>
+							<b-form-group id="input-group-1" label="Sale Invoice No:" label-for="input-1" class="input-form-label">
 								<b-form-input
 									id="input-1"
 									v-model="saleForm.sale_invoice_no"
 									placeholder="Sale Invoice No:"
 									disabled
 								></b-form-input>
-								<small v-if="fetchInvoiceNo">
-									Fetching latest invoice number ...
-								</small>
-								<span
-									class="invalid-feedback left-text"
-									v-if="errors.sale_invoice_no"
-								>
+								<small v-if="fetchInvoiceNo"> Fetching latest invoice number ... </small>
+								<span class="invalid-feedback left-text" v-if="errors.sale_invoice_no">
 									<strong>{{ errors.sale_invoice_no[0] }}</strong>
 								</span>
 							</b-form-group>
 						</div>
 
 						<div class="grid-item">
-							<b-form-group
-								id="input-group-1"
-								label="Tax (%):"
-								label-for="input-1"
-								class="input-form-label"
-							>
+							<b-form-group id="input-group-1" label="Tax (%):" label-for="input-1" class="input-form-label">
 								<b-form-input
 									id="input-1"
 									v-model="saleForm.tax"
@@ -57,22 +38,14 @@
 									disabled
 									:class="{ 'is-invalid': errors.tax_percent }"
 								></b-form-input>
-								<span
-									class="invalid-feedback left-text"
-									v-if="errors.tax_percent"
-								>
+								<span class="invalid-feedback left-text" v-if="errors.tax_percent">
 									<strong>{{ errors.tax_percent[0] }}</strong>
 								</span>
 							</b-form-group>
 						</div>
 
 						<div class="grid-item">
-							<b-form-group
-								id="input-group-2"
-								label="Sale Quotation:"
-								label-for="input-2"
-								class="input-form-label"
-							>
+							<b-form-group id="input-group-2" label="Sale Quotation:" label-for="input-2" class="input-form-label">
 								<select
 									class="form-control"
 									id="changeItem"
@@ -82,22 +55,14 @@
 									<option value="0">False</option>
 									<option value="1">True</option>
 								</select>
-								<span
-									class="invalid-feedback left-text"
-									v-if="errors.quotation"
-								>
+								<span class="invalid-feedback left-text" v-if="errors.quotation">
 									<strong>{{ errors.quotation[0] }}</strong>
 								</span>
 							</b-form-group>
 						</div>
 
 						<div class="grid-item">
-							<b-form-group
-								id="input-group-3"
-								label="Type:"
-								label-for="input-3"
-								class="input-form-label"
-							>
+							<b-form-group id="input-group-3" label="Type:" label-for="input-3" class="input-form-label">
 								<select
 									class="form-control"
 									id="changeItem"
@@ -116,12 +81,7 @@
 						</div>
 
 						<div class="grid-item">
-							<b-form-group
-								id="input-group-4"
-								label="Customer:"
-								label-for="input-4"
-								class="input-form-label"
-							>
+							<b-form-group id="input-group-4" label="Customer:" label-for="input-4" class="input-form-label">
 								<select
 									class="form-control"
 									id="changeItem"
@@ -129,9 +89,7 @@
 									@change.prevent="onCustomerChangeHandler"
 									:class="{ 'is-invalid': errors.customer_id }"
 								>
-									<option selected disabled value="null">
-										Select Customer
-									</option>
+									<option selected disabled value="null">Select Customer</option>
 									<option
 										v-for="customer in customers"
 										:key="customer.id"
@@ -141,113 +99,69 @@
 										{{ customer.name }}
 									</option>
 								</select>
-								<span
-									class="invalid-feedback left-text"
-									v-if="errors.customer_id"
-								>
+								<span class="invalid-feedback left-text" v-if="errors.customer_id">
 									<strong>{{ errors.customer_id[0] }}</strong>
 								</span>
 							</b-form-group>
 						</div>
 
 						<div class="grid-item">
-							<b-form-group
-								id="input-group-5"
-								label="Contact No:"
-								label-for="input-5"
-								class="input-form-label"
-							>
+							<b-form-group id="input-group-5" label="Contact No:" label-for="input-5" class="input-form-label">
 								<b-form-input
 									id="input-5"
 									v-model="saleForm.contact_no"
 									placeholder="Contact No:"
 									:class="{ 'is-invalid': errors.contact_no }"
 								></b-form-input>
-								<span
-									class="invalid-feedback left-text"
-									v-if="errors.contact_no"
-								>
+								<span class="invalid-feedback left-text" v-if="errors.contact_no">
 									<strong>{{ errors.contact_no[0] }}</strong>
 								</span>
 							</b-form-group>
 						</div>
 
 						<div class="grid-item">
-							<b-form-group
-								id="input-group-6"
-								label="Shipping Location:"
-								label-for="input-6"
-								class="input-form-label"
-							>
+							<b-form-group id="input-group-6" label="Shipping Location:" label-for="input-6" class="input-form-label">
 								<b-form-textarea
 									id="input-6"
 									v-model="saleForm.shipping_location"
 									placeholder="Cargo address"
 									:class="{ 'is-invalid': errors.shipping_location }"
 								></b-form-textarea>
-								<span
-									class="invalid-feedback left-text"
-									v-if="errors.shipping_location"
-								>
+								<span class="invalid-feedback left-text" v-if="errors.shipping_location">
 									<strong>{{ errors.shipping_location[0] }}</strong>
 								</span>
 							</b-form-group>
 						</div>
 
 						<div class="grid-item">
-							<b-form-group
-								id="input-group-7"
-								label="Extra Charges:"
-								label-for="input-7"
-								class="input-form-label"
-							>
+							<b-form-group id="input-group-7" label="Extra Charges:" label-for="input-7" class="input-form-label">
 								<b-form-input
 									id="input-7"
 									v-model="saleForm.extra_charges"
 									placeholder="Extra Charges:"
 									:class="{ 'is-invalid': errors.extra_charges }"
 								></b-form-input>
-								<span
-									class="invalid-feedback left-text"
-									v-if="errors.extra_charges"
-								>
+								<span class="invalid-feedback left-text" v-if="errors.extra_charges">
 									<strong>{{ errors.extra_charges[0] }}</strong>
 								</span>
 							</b-form-group>
 						</div>
 
 						<div class="grid-item">
-							<b-form-group
-								id="input-group-9"
-								label="Status:"
-								label-for="input-9"
-								class="input-form-label"
-							>
+							<b-form-group id="input-group-9" label="Status:" label-for="input-9" class="input-form-label">
 								<select
 									class="form-control"
 									id="changeItem"
 									v-model="saleForm.status_id"
 									:class="{ 'is-invalid': errors.status_id }"
-									:disabled="saleForm.status_id > 3"
 									@change="onStatusChangeHandler"
 								>
 									<option selected disabled value="null">Select Status</option>
-									<option
-										v-for="status in statuses"
-										:key="status.id"
-										:value="status.id"
-									>
+									<option v-for="status in statuses" :key="status.id" :value="status.id">
 										{{ status.name }}
 									</option>
 								</select>
-								<small v-if="statusMessage" class="statusMessage">
-									<strong>Note:</strong>
-									{{ statusMessage }}
-								</small>
-								<span
-									class="invalid-feedback left-text"
-									v-if="errors.status_id"
-								>
+								<span class="invalid-feedback left-text" v-if="errors.status_id">
 									<strong>{{ errors.status_id[0] }}</strong>
 								</span>
 							</b-form-group>
@@ -257,18 +171,14 @@
 							<button type="submit" class="btn btn-success mr-2">
 								<i class="fa fa-floppy-o" aria-hidden="true"></i> Submit
 							</button>
-							<button
-								type="button"
-								class="btn btn-danger"
-								@click.prevent="changeSaleEditMode(false)"
-							>
+							<button type="button" class="btn btn-danger" @click.prevent="changeSaleEditMode(false)">
 								<i class="fa fa-ban" aria-hidden="true"></i> Cancel
 							</button>
 						</div>
 					</div>
 				</b-form>
 			</template>
-			<h2 class="page-title underline mt-10" v-if="!disableEdit">Add Items</h2>
+			<h2 class="page-title underline mt-10">Add Items</h2>
 
 			<div class="grid-container">
 				<div class="grid-item">
@@ -282,14 +192,9 @@
 				</div>
 			</div>
 
-			<div class="grid-container" v-if="!disableEdit">
+			<div class="grid-container">
 				<div class="grid-item">
-					<b-form-group
-						id="input-group-11"
-						label="Location:"
-						label-for="input-11"
-						class="input-form-label"
-					>
+					<b-form-group id="input-group-11" label="Location:" label-for="input-11" class="input-form-label">
 						<select
 							class="form-control"
 							id="changeItem"
@@ -314,18 +219,9 @@
 				</div>
 
 				<div class="grid-item">
-					<b-form-group
-						id="input-group-12"
-						label="Inventory:"
-						label-for="input-12"
-						class="input-form-label"
-					>
+					<b-form-group id="input-group-12" label="Inventory:" label-for="input-12" class="input-form-label">
 						<template v-if="editItemMode">
-							<b-form-input
-								id="input-12"
-								:value="item.name"
-								disabled
-							></b-form-input>
+							<b-form-input id="input-12" :value="item.name" disabled></b-form-input>
 						</template>
 						<template v-else>
 							<select
@@ -355,12 +251,7 @@
 				<div class="grid-item"></div>
 
 				<div class="grid-item">
-					<b-form-group
-						id="input-group-14"
-						label="Sale Price:"
-						label-for="input-14"
-						class="input-form-label"
-					>
+					<b-form-group id="input-group-14" label="Sale Price:" label-for="input-14" class="input-form-label">
 						<b-form-input
 							id="input-14"
 							type="number"
@@ -378,12 +269,7 @@
 				</div>
 
 				<div class="grid-item">
-					<b-form-group
-						id="input-group-15"
-						label="Quantity:"
-						label-for="input-15"
-						class="input-form-label"
-					>
+					<b-form-group id="input-group-15" label="Quantity:" label-for="input-15" class="input-form-label">
 						<b-form-input
 							id="input-15"
 							type="number"
@@ -410,8 +296,7 @@
 						<i class="fa fa-floppy-o" aria-hidden="true"></i> Add
 					</b-button>
 					<span class="alert-span" v-if="similarItemSelected">
-						<strong>Note:</strong> Adding same item again will overwrite the
-						previous record.</span
+						<strong>Note:</strong> Adding same item again will overwrite the previous record.</span
 					>
 				</div>
 
@@ -435,11 +320,7 @@
 				</template>
 
 				<template v-else>
-					<b-skeleton-table
-						:rows="5"
-						:columns="4"
-						:table-props="{ bordered: true, striped: true }"
-					></b-skeleton-table>
+					<b-skeleton-table :rows="5" :columns="4" :table-props="{ bordered: true, striped: true }"></b-skeleton-table>
 				</template>
 			</b-container>
 		</template>
@@ -491,29 +372,20 @@ export default {
 			savingOnServer: 'sales/savingOnServer',
 		}),
 		lowSalePrice() {
-			const condition =
-				this.item.sale_price &&
-				parseFloat(this.item.sale_price) < parseFloat(this.item.cost_price);
+			const condition = this.item.sale_price && parseFloat(this.item.sale_price) < parseFloat(this.item.cost_price);
 			return condition ? true : false;
 		},
 		similarItemSelected() {
 			const index = this.saleForm.details.findIndex(
-				detail =>
-					detail.location_id === this.item.location_id &&
-					detail.inventory_id === this.item.inventory_id
+				detail => detail.location_id === this.item.location_id && detail.inventory_id === this.item.inventory_id
 			);
-			return this.item.inventory_id && !this.editItemMode && index > -1
-				? true
-				: false;
+			return this.item.inventory_id && !this.editItemMode && index > -1 ? true : false;
 		},
 		saleDetails() {
-			return this.$store.state.sales.selectedSale
-				? this.$store.state.sales.selectedSale.details
-				: [];
+			return this.$store.state.sales.selectedSale ? this.$store.state.sales.selectedSale.details : [];
 		},
 		statusMessage() {
-			const message =
-				"Once status is delivered or cancelled, you can't be able to change it in future";
+			const message = "Once status is delivered or cancelled, you can't be able to change it in future";
 			return this.saleForm.status_id > 3 ? message : '';
 		},
 		disableEdit() {
@@ -576,17 +448,11 @@ export default {
 		},
 		changeSaleEditMode(trueOrFalse) {
 			this.editSaleForm = trueOrFalse;
-			this.saleForm.status_id = this.editSaleForm
-				? this.selectedSale.status_id
-				: null;
+			this.saleForm.status_id = this.editSaleForm ? this.selectedSale.status_id : null;
 
-			const condition =
-				this.editSaleForm ||
-				(!this.editSaleForm && this.selectedSale.sale_invoice_no);
+			const condition = this.editSaleForm || (!this.editSaleForm && this.selectedSale.sale_invoice_no);
 
-			this.saleForm.sale_invoice_no = condition
-				? this.selectedSale.sale_invoice_no
-				: null;
+			this.saleForm.sale_invoice_no = condition ? this.selectedSale.sale_invoice_no : null;
 		},
 		submitAddItem() {
 			//
@@ -609,16 +475,12 @@ export default {
 			this.fetchLocationBasedInventory(this.item.location_id);
 		},
 		onCustomerChangeHandler() {
-			const customer = this.customers.find(
-				customer => customer.id === this.saleForm.customer_id
-			);
+			const customer = this.customers.find(customer => customer.id === this.saleForm.customer_id);
 			this.saleForm.contact_no = customer.mobile_no_country;
 			this.saleForm.shipping_location = customer.cargo_address;
 		},
 		onInventoryChangeHandler() {
-			const invt = this.inventories.find(
-				invt => invt.id === this.item.inventory_id
-			);
+			const invt = this.inventories.find(invt => invt.id === this.item.inventory_id);
 			this.item.name = invt.item_name;
 			this.item.cost_price = invt.sale_price;
 			this.item.avg_price = invt.avg_price;
@@ -641,11 +503,7 @@ export default {
 					if (result.value) {
 						if (id) {
 							this.removeItem(id).then(() => {
-								this.$swal.fire(
-									'Done!',
-									'Purchased item has been removed',
-									'success'
-								);
+								this.$swal.fire('Done!', 'Purchased item has been removed', 'success');
 								this.calcTotalSalePriceAndTax();
 							});
 						} else {
@@ -665,9 +523,7 @@ export default {
 		onAddItemDetailsHandler() {
 			this.editItemMode = false;
 			const index = this.saleForm.details.findIndex(
-				i =>
-					i.location_id === this.item.location_id &&
-					i.inventory_id === this.item.inventory_id
+				i => i.location_id === this.item.location_id && i.inventory_id === this.item.inventory_id
 			);
 
 			if (index > -1) {
@@ -718,9 +574,7 @@ export default {
 		},
 		onStatusChangeHandler() {
 			const condition =
-				this.saleForm.status_id !== 0 &&
-				this.saleForm.quotation === 1 &&
-				!this.saleForm.sale_invoice_no;
+				this.saleForm.status_id !== 0 && this.saleForm.quotation === 1 && !this.saleForm.sale_invoice_no;
 
 			if (condition) {
 				this.getInvoiceNumberFromServer(this.$route.params.id).then(() => {
@@ -729,13 +583,9 @@ export default {
 			}
 		},
 		onChangeTypeHandler() {
-			this.saleForm.tax =
-				this.saleForm.type === 'export'
-					? 0
-					: parseFloat(this.selectedSale.tax_percent);
+			this.saleForm.tax = this.saleForm.type === 'export' ? 0 : parseFloat(this.selectedSale.tax_percent);
 
-			const condition =
-				this.saleForm.type === 'export' && !this.saleForm.sale_invoice_no;
+			const condition = this.saleForm.type === 'export' && !this.saleForm.sale_invoice_no;
 			if (condition) {
 				this.getInvoiceNumberFromServer(this.$route.params.id).then(() => {
 					this.saleForm.sale_invoice_no = this.latestInvoiceNo;
@@ -744,25 +594,20 @@ export default {
 		},
 		calcTotalSalePriceAndTax() {
 			if (this.saleForm.details.length) {
-				this.total_sale_price = this.saleForm.details
-					.map(d => d.total_price)
-					.reduce((prev, next) => prev + next);
+				this.total_sale_price = this.saleForm.details.map(d => d.total_price).reduce((prev, next) => prev + next);
 
 				this.total_avg_price = this.saleForm.details
 					.map(d => d.total_item_avg_price)
 					.reduce((prev, next) => prev + next);
 
-				this.total_tax =
-					(parseFloat(this.total_sale_price) * this.saleForm.tax) / 100;
+				this.total_tax = (parseFloat(this.total_sale_price) * this.saleForm.tax) / 100;
 			}
 		},
 		getItem() {
 			if (!this.inventories) {
 				return '';
 			}
-			const invt = this.inventories.find(
-				invt => invt.id === this.item.inventory_id
-			);
+			const invt = this.inventories.find(invt => invt.id === this.item.inventory_id);
 			return invt.item_name;
 		},
 		getLocation() {

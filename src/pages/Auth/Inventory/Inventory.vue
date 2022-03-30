@@ -10,8 +10,8 @@
 			<b-row>
 				<router-link to="/add-inventory">
 					<b-button class="admin-users-component-add-new-inventory-button"
-						><i class="fa fa-plus" aria-hidden="true"></i> Add Item</b-button
-					>
+						><i class="fa fa-plus" aria-hidden="true"></i> Add
+					</b-button>
 				</router-link>
 				<router-link
 					v-if="selectedInventory"
@@ -22,8 +22,7 @@
 				>
 					<b-button class="admin-users-component-add-new-inventory-button ml-2"
 						><i class="fa fa-pencil" aria-hidden="true"></i> Update
-						Item</b-button
-					>
+					</b-button>
 				</router-link>
 			</b-row>
 
@@ -41,11 +40,7 @@
 					<DxColumn data-field="item_name" :fixed="true" sort-order="asc" />
 					<DxColumn data-field="location" alignment="left" />
 					<DxColumn data-field="quantity" alignment="center" />
-					<DxColumn
-						data-field="avg_price"
-						alignment="center"
-						caption="Avg. Price"
-					/>
+					<DxColumn data-field="avg_price" alignment="center" caption="Avg. Price" />
 					<DxColumn data-field="purchase_price" alignment="center" />
 					<DxColumn data-field="sale_price" alignment="center" />
 
@@ -53,11 +48,7 @@
 					<DxFilterRow :visible="true" />
 					<DxSearchPanel :visible="true" />
 					<DxPaging :enabled="true" :page-size="25" />
-					<DxPager
-						:show-navigation-buttons="true"
-						:show-info="true"
-						info-text="Page #{0}. Total: {1} ({2} items)"
-					/>
+					<DxPager :show-navigation-buttons="true" :show-info="true" info-text="Page #{0}. Total: {1} ({2} items)" />
 				</DxDataGrid>
 			</b-row>
 		</template>
@@ -121,8 +112,7 @@ export default {
 			if (e.rowType === 'data') {
 				const { quantity } = e.data;
 
-				if (quantity > 0 && quantity < 15)
-					e.rowElement.classList.add('lowInventory');
+				if (quantity > 0 && quantity < 15) e.rowElement.classList.add('lowInventory');
 				else if (quantity === 0) e.rowElement.classList.add('noInventory');
 			}
 		},
