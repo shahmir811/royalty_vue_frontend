@@ -27,10 +27,9 @@ Vue.use(VueSweetalert2);
 localForage.getItem('authtoken', (err, token) => {
 	store.dispatch('auth/attempt', token).then(() => {
 		new Vue({
-			el: '#app',
 			router,
 			store,
 			render: h => h(App),
-		});
+		}).$mount('#app');
 	});
 });
