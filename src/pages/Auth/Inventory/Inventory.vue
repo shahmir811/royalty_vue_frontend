@@ -38,6 +38,7 @@
 					@row-prepared="onRowPrepared"
 				>
 					<DxColumn data-field="item_name" :fixed="true" sort-order="asc" />
+					<DxColumn data-field="categories" alignment="left" />
 					<DxColumn data-field="location" alignment="left" />
 					<DxColumn data-field="quantity" alignment="center" />
 					<DxColumn data-field="avg_price" alignment="center" caption="Avg. Price" />

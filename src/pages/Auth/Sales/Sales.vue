@@ -52,6 +52,7 @@
 					<DxColumn data-field="created_by" caption="Created By" alignment="left" />
 					<DxColumn data-field="created_at" caption="Date" alignment="left" />
 					<DxColumn data-field="status" caption="Status" alignment="left" />
+					<DxColumn v-if="role === 'admin'" data-field="total_sale_price" caption="Total Sale" alignment="left" />
 					<DxColumn v-if="role === 'admin'" data-field="margin" caption="Profit (%)" alignment="left" />
 					<DxColumn v-if="role === 'admin'" data-field="profit_amount" caption="Profit (AED)" alignment="left" />
 

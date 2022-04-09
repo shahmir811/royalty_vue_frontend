@@ -24,10 +24,7 @@ export const fetchInventory = async ({ commit, dispatch }) => {
 
 /////////////////////// Fetch all inventory items ///////////////////////
 
-export const fetchLocationBasedInventory = async (
-	{ commit, dispatch },
-	locationId
-) => {
+export const fetchLocationBasedInventory = async ({ commit, dispatch }, locationId) => {
 	commit('startPageLoad');
 
 	const url = (await getURL()) + 'location-based-inventory/' + locationId;
@@ -74,8 +71,7 @@ export const addNewInventoryItem = async ({ commit, dispatch }, data) => {
 			dispatch(
 				'flashMessage',
 				{
-					message:
-						'Item is already there in mentioned location inventory. Duplicate items are not allowed',
+					message: 'Oops! something went wrong. Please try again',
 					type: 'danger',
 				},
 				{ root: true }
@@ -88,10 +84,7 @@ export const addNewInventoryItem = async ({ commit, dispatch }, data) => {
 };
 
 /////////////////////// Update inventory item ///////////////////////
-export const updateInventoryItemDetails = async (
-	{ commit, dispatch },
-	data
-) => {
+export const updateInventoryItemDetails = async ({ commit, dispatch }, data) => {
 	commit('setLoading', true);
 	commit('clearErrors');
 
@@ -121,10 +114,7 @@ export const updateInventoryItemDetails = async (
 };
 
 /////////////////////// Fetch All inventory items From Update inventory detail page ///////////////////////
-export const fetchInventoryItemsFromUpdateInventoryItemPage = async ({
-	commit,
-	dispatch,
-}) => {
+export const fetchInventoryItemsFromUpdateInventoryItemPage = async ({ commit, dispatch }) => {
 	commit('setLoading', true);
 
 	const url = (await getURL()) + 'inventory-list';
