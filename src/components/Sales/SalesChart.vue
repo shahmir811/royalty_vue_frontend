@@ -14,11 +14,7 @@
 			<div class="grid-item">
 				<template v-if="picked === 'dropdown'">
 					<select class="custom-select w-60" v-model="selectedRecord">
-						<option
-							:value="record.option"
-							:key="record.id"
-							v-for="record in records"
-						>
+						<option :value="record.option" :key="record.id" v-for="record in records">
 							{{ record.label }}
 						</option>
 					</select>
@@ -31,26 +27,28 @@
 
 		<template v-if="salesData.length > 0 && !loading">
 			<DxChart
-				id="weeklyChart"
+				id="chart"
 				:data-source="data"
-				palette="Soft"
-				:customize-point="customizePoint"
+				title="Gross State Product within the Great Lakes Region"
+				@pointClick="onPointClick"
 			>
-				<DxSize :height="420" />
-				<DxSeries
+				<DxCommonSeriesSettings
+					:bar-padding="0.3"
 					argument-field="day"
-					value-field="margin"
-					name="Sales"
 					type="bar"
-					color="#bfb"
-				/>
+					hover-mode="allArgumentPoints"
+					selection-mode="allArgumentPoints"
+				>
+					<DxLabel :visible="true">
+						<DxFormat :precision="0" type="fixedPoint" />
+					</DxLabel>
+				</DxCommonSeriesSettings>
+				<DxSeries value-field="sale" name="Sale" />
+				<DxSeries value-field="margin" name="Profit" color="#82EB8E" />
+				<DxLegend vertical-alignment="bottom" horizontal-alignment="center" />
 				<DxExport :enabled="true" />
 				<DxTitle :text="title" subtitle="(in AED amount)" />
-				<DxTooltip :enabled="true" :customize-tooltip="customizeTooltip" />
 			</DxChart>
-		</template>
-		<template v-else>
-			<p>Loading ...</p>
 		</template>
 	</div>
 </template>
@@ -62,10 +60,12 @@ import { mapGetters, mapActions } from 'vuex';
 import {
 	DxChart,
 	DxSeries,
+	DxCommonSeriesSettings,
+	DxLabel,
+	DxFormat,
+	DxLegend,
 	DxExport,
 	DxTitle,
-	DxSize,
-	DxTooltip,
 } from 'devextreme-vue/chart';
 
 export default {
@@ -90,12 +90,16 @@ export default {
 		},
 	},
 	components: {
-		DxSize,
+		// DxSize,
 		DxChart,
 		DxSeries,
 		DxExport,
+		DxCommonSeriesSettings,
 		DxTitle,
-		DxTooltip,
+		// DxTooltip,
+		DxLabel,
+		DxFormat,
+		DxLegend,
 		DateRange,
 	},
 	data() {
@@ -117,8 +121,7 @@ export default {
 	methods: {
 		...mapActions({
 			getSalesRecordFromServer: 'charts/getSalesRecordFromServer',
-			getSalesRecordBetweenSpecificDates:
-				'charts/getSalesRecordBetweenSpecificDates',
+			getSalesRecordBetweenSpecificDates: 'charts/getSalesRecordBetweenSpecificDates',
 		}),
 		getNewSalesData() {
 			this.getSalesRecordFromServer(this.days).then(() => {
@@ -142,6 +145,9 @@ export default {
 				this.data = this.salesData;
 			});
 		},
+		onPointClick({ target }) {
+			target.select();
+		},
 	},
 };
 </script>
@@ -155,7 +161,6 @@ export default {
 	grid-template-columns: 1fr 1fr 4fr;
 	background-color: $NAVBAV_BASE_COLOR;
 	padding: 10px;
-	// height: 80vh;
 	height: auto;
 }
 

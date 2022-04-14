@@ -2,11 +2,7 @@
 	<div class="yearlySalesWrappingDiv">
 		<div class="year-dropdown-div">
 			<h3 class="year-title">Select Year</h3>
-			<select
-				class="custom-select w-40"
-				v-model="selectedYear"
-				@change.prevent="fetchDataSource"
-			>
+			<select class="custom-select w-40" v-model="selectedYear" @change.prevent="fetchDataSource">
 				<option :value="record" :key="record" v-for="record in yearOptions">
 					{{ record }}
 				</option>
@@ -17,19 +13,25 @@
 			<DxChart
 				id="chart"
 				:data-source="dataSource"
-				palette="Soft"
-				:customize-point="customizePoint"
+				title="Gross State Product within the Great Lakes Region"
+				@pointClick="onPointClick"
 			>
-				<DxSeries
+				<DxCommonSeriesSettings
+					:bar-padding="0.3"
 					argument-field="Month"
-					value-field="margin"
-					name="Sales"
 					type="bar"
-					color="#bfb"
-				/>
+					hover-mode="allArgumentPoints"
+					selection-mode="allArgumentPoints"
+				>
+					<DxLabel :visible="true">
+						<DxFormat :precision="0" type="fixedPoint" />
+					</DxLabel>
+				</DxCommonSeriesSettings>
+				<DxSeries value-field="sale" name="Sale" />
+				<DxSeries value-field="margin" name="Profit" color="#82EB8E" />
+				<DxLegend vertical-alignment="bottom" horizontal-alignment="center" />
 				<DxExport :enabled="true" />
-				<DxTitle :text="yearlySalesTitle" subtitle="(in AED amount)" />
-				<DxTooltip :enabled="true" :customize-tooltip="customizeTooltip" />
+				<DxTitle :text="title" subtitle="(in AED amount)" />
 			</DxChart>
 		</template>
 		<template v-else>
@@ -40,12 +42,16 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+
 import {
 	DxChart,
 	DxSeries,
-	DxTitle,
+	DxCommonSeriesSettings,
+	DxLabel,
+	DxFormat,
+	DxLegend,
 	DxExport,
-	DxTooltip,
+	DxTitle,
 } from 'devextreme-vue/chart';
 import moment from 'moment';
 
@@ -56,7 +62,10 @@ export default {
 		DxSeries,
 		DxTitle,
 		DxExport,
-		DxTooltip,
+		DxCommonSeriesSettings,
+		DxLabel,
+		DxFormat,
+		DxLegend,
 	},
 	mounted() {
 		this.addYearsRecord();
