@@ -40,10 +40,12 @@
 					<DxColumn data-field="item_name" :fixed="true" sort-order="asc" />
 					<DxColumn data-field="categories" alignment="left" />
 					<DxColumn data-field="location" alignment="left" />
+					<DxColumn data-field="package" alignment="center" />
 					<DxColumn data-field="quantity" alignment="center" />
 					<DxColumn data-field="avg_price" alignment="center" caption="Avg. Price" />
 					<DxColumn data-field="purchase_price" alignment="center" />
 					<DxColumn data-field="sale_price" alignment="center" />
+					<DxColumn data-field="total_cost_value" alignment="center" />
 
 					<DxSelection mode="single" />
 					<DxFilterRow :visible="true" />

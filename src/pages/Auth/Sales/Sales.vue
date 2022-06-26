@@ -55,6 +55,7 @@
 					<DxColumn v-if="role === 'admin'" data-field="total_sale_price" caption="Total Sale" alignment="left" />
 					<DxColumn v-if="role === 'admin'" data-field="margin" caption="Profit (%)" alignment="left" />
 					<DxColumn v-if="role === 'admin'" data-field="profit_amount" caption="Profit (AED)" alignment="left" />
+					<DxColumn data-field="received_by" caption="Received By" alignment="left" />
 
 					<DxSelection mode="single" />
 					<DxFilterRow :visible="true" />
