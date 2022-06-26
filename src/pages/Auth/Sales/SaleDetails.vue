@@ -50,6 +50,7 @@
 									class="form-control"
 									id="changeItem"
 									v-model="saleForm.quotation"
+									@change.prevent="onChangeSaleQuotationHandler"
 									:class="{ 'is-invalid': errors.quotation }"
 								>
 									<option value="0">False</option>
@@ -587,6 +588,13 @@ export default {
 
 			const condition = this.saleForm.type === 'export' && !this.saleForm.sale_invoice_no;
 			if (condition) {
+				this.getInvoiceNumberFromServer(this.$route.params.id).then(() => {
+					this.saleForm.sale_invoice_no = this.latestInvoiceNo;
+				});
+			}
+		},
+		onChangeSaleQuotationHandler() {
+			if (this.saleForm.quotation == 0 && !this.saleForm.sale_invoice_no) {
 				this.getInvoiceNumberFromServer(this.$route.params.id).then(() => {
 					this.saleForm.sale_invoice_no = this.latestInvoiceNo;
 				});
