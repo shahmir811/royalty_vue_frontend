@@ -24,10 +24,7 @@ export const fetchCustomerCredits = async ({ commit, dispatch }) => {
 
 /////////////////////// Fetch Customer Credit Details ///////////////////////
 
-export const fetchCustomerCreditsDetailsFromServer = async (
-	{ commit, dispatch },
-	customerId
-) => {
+export const fetchCustomerCreditsDetailsFromServer = async ({ commit, dispatch }, customerId) => {
 	commit('setFetchingCreditDetails', true);
 	commit('clearCustomerRecord');
 	commit('setCustomerSalesDropDownRecord');
@@ -61,10 +58,7 @@ export const fetchCustomerCreditsDetailsFromServer = async (
 
 /////////////////////// Fetch Payment Details ///////////////////////
 
-export const fetchPaymentDetailsFromServer = async (
-	{ commit, dispatch },
-	creditId
-) => {
+export const fetchPaymentDetailsFromServer = async ({ commit, dispatch }, creditId) => {
 	commit('setTotal');
 	commit('setDueAmount');
 	commit('setFetchingPaymentDetails', true);
@@ -75,8 +69,7 @@ export const fetchPaymentDetailsFromServer = async (
 		axios
 			.get(`${url}`)
 			.then(response => {
-				const { customer_id, customer_name, data, due_amount, total } =
-					response.data;
+				const { customer_id, customer_name, data, due_amount, total } = response.data;
 
 				commit('setTotal', total);
 				commit('setDueAmount', due_amount);
@@ -123,7 +116,7 @@ export const printPaymentDetailsOnServer = async ({ commit }, creditId) => {
 /////////////////////// add Payment Details ///////////////////////
 
 export const addPaymentToServer = async ({ commit, dispatch }, data) => {
-	const { creditId, amount } = data;
+	const { creditId, amount, paid_by, reason } = data;
 
 	commit('setServerRequest', true);
 	commit('clearErrors');
@@ -131,7 +124,7 @@ export const addPaymentToServer = async ({ commit, dispatch }, data) => {
 
 	return new Promise((resolve, reject) => {
 		axios
-			.post(`${url}`, { amount })
+			.post(`${url}`, { amount, paid_by, reason })
 			.then(response => {
 				const { due_amount, data } = response.data;
 
@@ -152,10 +145,7 @@ export const addPaymentToServer = async ({ commit, dispatch }, data) => {
 
 /////////////////////// remove credit record ///////////////////////
 
-export const removeCreditRecordFromServer = async (
-	{ commit, dispatch },
-	creditId
-) => {
+export const removeCreditRecordFromServer = async ({ commit, dispatch }, creditId) => {
 	const url = (await getURL()) + 'remove-customer-credit-record/' + creditId;
 
 	return new Promise((resolve, reject) => {
@@ -178,10 +168,7 @@ export const removeCreditRecordFromServer = async (
 
 /////////////////////// add new customer credit record ///////////////////////
 
-export const addNewCustomerCreditRecordOnServer = async (
-	{ commit, dispatch },
-	data
-) => {
+export const addNewCustomerCreditRecordOnServer = async ({ commit, dispatch }, data) => {
 	commit('clearErrors');
 	commit('setServerRequest', true);
 
